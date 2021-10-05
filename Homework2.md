@@ -103,8 +103,221 @@ sum(sb)
 which I will show below
 
 ``` r
-sb_alt = df_three %>% pull("sports_balls")
-sum(sb_alt)
+df_three %>% pull("sports_balls") %>% sum()
 ```
 
     ## [1] 4064.6
+
+\#Import and view \#I will import the 2019 precipitation sheet, clean
+its column names, and examine the structure, head, and tail of the data
+set. \#Then, I will view the data set
+
+``` r
+df_four = read_excel("Trash-Wheel-Collection-Totals-8-6-19.xlsx", sheet = "2019 Precipitation")
+```
+
+    ## New names:
+    ## * `` -> ...2
+
+``` r
+df_four = janitor::clean_names(df_four)
+str(df_four)
+```
+
+    ## tibble [14 × 2] (S3: tbl_df/tbl/data.frame)
+    ##  $ precipitation_in: chr [1:14] "Month" "1" "2" "3" ...
+    ##  $ x2              : chr [1:14] "Total" "3.1" "3.64" "4.47" ...
+
+``` r
+head(df_four)
+```
+
+    ## # A tibble: 6 × 2
+    ##   precipitation_in x2   
+    ##   <chr>            <chr>
+    ## 1 Month            Total
+    ## 2 1                3.1  
+    ## 3 2                3.64 
+    ## 4 3                4.47 
+    ## 5 4                1.46 
+    ## 6 5                3.58
+
+``` r
+tail(df_four)
+```
+
+    ## # A tibble: 6 × 2
+    ##   precipitation_in x2                
+    ##   <chr>            <chr>             
+    ## 1 8                <NA>              
+    ## 2 9                <NA>              
+    ## 3 10               <NA>              
+    ## 4 11               <NA>              
+    ## 5 12               <NA>              
+    ## 6 <NA>             16.670000000000002
+
+``` r
+view(df_four)
+```
+
+\#The first row contains column names. \#I will clean the column names.
+
+``` r
+df_five = read_excel("Trash-Wheel-Collection-Totals-8-6-19.xlsx", sheet = "2019 Precipitation", skip = 1, col_names = TRUE)
+df_five = janitor::clean_names(df_five)
+str(df_five)
+```
+
+    ## tibble [13 × 2] (S3: tbl_df/tbl/data.frame)
+    ##  $ month: num [1:13] 1 2 3 4 5 6 7 8 9 10 ...
+    ##  $ total: num [1:13] 3.1 3.64 4.47 1.46 3.58 0.42 NA NA NA NA ...
+
+``` r
+head(df_five)
+```
+
+    ## # A tibble: 6 × 2
+    ##   month total
+    ##   <dbl> <dbl>
+    ## 1     1  3.1 
+    ## 2     2  3.64
+    ## 3     3  4.47
+    ## 4     4  1.46
+    ## 5     5  3.58
+    ## 6     6  0.42
+
+``` r
+tail(df_five)
+```
+
+    ## # A tibble: 6 × 2
+    ##   month total
+    ##   <dbl> <dbl>
+    ## 1     8  NA  
+    ## 2     9  NA  
+    ## 3    10  NA  
+    ## 4    11  NA  
+    ## 5    12  NA  
+    ## 6    NA  16.7
+
+``` r
+view(df_five)
+```
+
+\#Now I will omit rows with missing data
+
+``` r
+df_six = drop_na(df_five)
+view(df_six)
+```
+
+# I will add a year column to this data set
+
+``` r
+df_2019 = df_six %>% mutate(year = 2019)
+view(df_2019)
+```
+
+\#\#\#Now I will move on to the 2018 precipitation sheet
+
+``` r
+df_seven = read_excel("Trash-Wheel-Collection-Totals-8-6-19.xlsx", sheet = "2018 Precipitation")
+```
+
+    ## New names:
+    ## * `` -> ...2
+
+``` r
+df_seven = janitor::clean_names(df_seven)
+str(df_seven)
+```
+
+    ## tibble [14 × 2] (S3: tbl_df/tbl/data.frame)
+    ##  $ precipitation_in: chr [1:14] "Month" "1" "2" "3" ...
+    ##  $ x2              : chr [1:14] "Total" "0.94" "4.8" "2.69" ...
+
+``` r
+head(df_seven)
+```
+
+    ## # A tibble: 6 × 2
+    ##   precipitation_in x2                
+    ##   <chr>            <chr>             
+    ## 1 Month            Total             
+    ## 2 1                0.94              
+    ## 3 2                4.8               
+    ## 4 3                2.69              
+    ## 5 4                4.6900000000000004
+    ## 6 5                9.27
+
+``` r
+tail(df_seven)
+```
+
+    ## # A tibble: 6 × 2
+    ##   precipitation_in x2   
+    ##   <chr>            <chr>
+    ## 1 8                6.45 
+    ## 2 9                10.47
+    ## 3 10               2.12 
+    ## 4 11               7.82 
+    ## 5 12               6.11 
+    ## 6 <NA>             70.33
+
+``` r
+view(df_seven)
+```
+
+\#The first row contains column names. \#I will clean the column names
+and drop the NA values
+
+``` r
+df_eight = read_excel("Trash-Wheel-Collection-Totals-8-6-19.xlsx", sheet = "2018 Precipitation", skip = 1, col_names = TRUE)
+df_eight = janitor::clean_names(df_eight)
+str(df_eight)
+```
+
+    ## tibble [13 × 2] (S3: tbl_df/tbl/data.frame)
+    ##  $ month: num [1:13] 1 2 3 4 5 6 7 8 9 10 ...
+    ##  $ total: num [1:13] 0.94 4.8 2.69 4.69 9.27 ...
+
+``` r
+head(df_eight)
+```
+
+    ## # A tibble: 6 × 2
+    ##   month total
+    ##   <dbl> <dbl>
+    ## 1     1  0.94
+    ## 2     2  4.8 
+    ## 3     3  2.69
+    ## 4     4  4.69
+    ## 5     5  9.27
+    ## 6     6  4.77
+
+``` r
+tail(df_eight)
+```
+
+    ## # A tibble: 6 × 2
+    ##   month total
+    ##   <dbl> <dbl>
+    ## 1     8  6.45
+    ## 2     9 10.5 
+    ## 3    10  2.12
+    ## 4    11  7.82
+    ## 5    12  6.11
+    ## 6    NA 70.3
+
+``` r
+view(df_eight)
+df_nine = drop_na(df_eight)
+view(df_nine)
+```
+
+# I will add a year column to this data set
+
+``` r
+df_2018 = df_nine %>% mutate(year = 2018)
+view(df_2018)
+```
