@@ -87,3 +87,24 @@ view(df_two)
 df_three = drop_na(df_two)
 view(df_three)
 ```
+
+\#Calculate the number of sports balls
+
+``` r
+sb = select(df_three, "sports_balls")
+sum(sb)
+```
+
+    ## [1] 4064.6
+
+\#\#\#4065 is the closest integer value of sports balls
+
+\#\#This calculation could also be achieved by the “pull” function,
+which I will show below
+
+``` r
+sb_alt = df_three %>% pull("sports_balls")
+sum(sb_alt)
+```
+
+    ## [1] 4064.6
