@@ -358,3 +358,31 @@ view(precipitation_m)
 data_set_full = merge(df_three, precipitation_m, by = c("year", "month"), all=TRUE)
 view(data_set_full)
 ```
+
+\#\#I will drop missing values from the dataset, which will remove all
+values before 2018\#\#\#
+
+``` r
+data_set_edit = drop_na(data_set_full)
+view(data_set_edit)
+```
+
+\#\#I will calculate the median precipitation in 2018
+
+``` r
+ data_set_edit %>% filter (year == 2018) %>% pull (total_precipitation) %>% median()
+```
+
+    ## [1] 6.11
+
+\#\#The median precipitation in 2018 was 6.11
+
+\#\#I will calculate the median sports balls in 2019
+
+``` r
+ data_set_edit %>% filter (year == 2019) %>% pull (sports_balls) %>% median()
+```
+
+    ## [1] 8.5
+
+\#\#\#The median number of sports balls was 2019
