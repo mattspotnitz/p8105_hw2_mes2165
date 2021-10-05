@@ -352,6 +352,47 @@ precipitation_m = precipitation %>% select("year", "month_name", "total") %>% re
 view(precipitation_m)
 ```
 
+\#I will characterize the precipitation data sets by viewing the
+structure, head and tail
+
+``` r
+str(precipitation)
+```
+
+    ## 'data.frame':    18 obs. of  4 variables:
+    ##  $ year      : num  2018 2018 2018 2018 2018 ...
+    ##  $ month     : num  1 2 3 4 5 6 7 8 9 10 ...
+    ##  $ month_name: chr  "January" "February" "March" "April" ...
+    ##  $ total     : num  0.94 4.8 2.69 4.69 9.27 ...
+
+``` r
+head(precipitation)
+```
+
+    ##   year month month_name total
+    ## 1 2018     1    January  0.94
+    ## 2 2018     2   February  4.80
+    ## 3 2018     3      March  2.69
+    ## 4 2018     4      April  4.69
+    ## 5 2018     5        May  9.27
+    ## 6 2018     6       June  4.77
+
+``` r
+tail(precipitation)
+```
+
+    ##    year month month_name total
+    ## 13 2019     1    January  3.10
+    ## 14 2019     2   February  3.64
+    ## 15 2019     3      March  4.47
+    ## 16 2019     4      April  1.46
+    ## 17 2019     5        May  3.58
+    ## 18 2019     6       June  0.42
+
+\#This data set has 18 observations and 4 variables. There are 4
+columns. Of those, 3 columns are in numerical format and month\_name is
+in a character format.
+
 \#I will merge Mr. Trash Wheel with precipitation data
 
 ``` r
@@ -359,11 +400,177 @@ data_set_full = merge(df_three, precipitation_m, by = c("year", "month"), all=TR
 view(data_set_full)
 ```
 
+\#I will characterize the merged data sets by viewing the structure,
+head and tail
+
+``` r
+str(data_set_full)
+```
+
+    ## 'data.frame':    344 obs. of  15 variables:
+    ##  $ year               : num  2014 2014 2014 2014 2014 ...
+    ##  $ month              : chr  "August" "August" "August" "August" ...
+    ##  $ dumpster           : num  25 26 27 28 29 42 43 44 18 19 ...
+    ##  $ date               : POSIXct, format: "2014-08-04" "2014-08-04" ...
+    ##  $ weight_tons        : num  4.39 5.33 3.58 3.1 1.77 1.81 3.48 3.18 2.54 2.41 ...
+    ##  $ volume_cubic_yards : num  16 17 20 17 10 17 15 15 15 15 ...
+    ##  $ plastic_bottles    : num  2140 1630 3640 1430 570 1370 550 640 1640 1730 ...
+    ##  $ polystyrene        : num  2050 1950 4360 1870 780 3140 1450 1670 1960 2100 ...
+    ##  $ cigarette_butts    : num  118000 123000 141000 121000 32000 38000 22000 26000 108000 107000 ...
+    ##  $ glass_bottles      : num  68 75 82 63 21 28 34 42 65 63 ...
+    ##  $ grocery_bags       : num  904 512 1560 552 310 950 740 880 744 896 ...
+    ##  $ chip_bags          : num  1762 1318 3067 1144 1440 ...
+    ##  $ sports_balls       : num  6.4 6.8 8 6.8 4 6.8 6 6 6 6 ...
+    ##  $ homes_powered      : num  0 0 0 0 0 0 0 0 0 0 ...
+    ##  $ total_precipitation: num  NA NA NA NA NA NA NA NA NA NA ...
+
+``` r
+head(data_set_full)
+```
+
+    ##   year    month dumpster       date weight_tons volume_cubic_yards
+    ## 1 2014   August       25 2014-08-04        4.39                 16
+    ## 2 2014   August       26 2014-08-04        5.33                 17
+    ## 3 2014   August       27 2014-08-13        3.58                 20
+    ## 4 2014   August       28 2014-08-13        3.10                 17
+    ## 5 2014   August       29 2014-08-19        1.77                 10
+    ## 6 2014 December       42 2014-12-01        1.81                 17
+    ##   plastic_bottles polystyrene cigarette_butts glass_bottles grocery_bags
+    ## 1            2140        2050          118000            68          904
+    ## 2            1630        1950          123000            75          512
+    ## 3            3640        4360          141000            82         1560
+    ## 4            1430        1870          121000            63          552
+    ## 5             570         780           32000            21          310
+    ## 6            1370        3140           38000            28          950
+    ##   chip_bags sports_balls homes_powered total_precipitation
+    ## 1      1762          6.4             0                  NA
+    ## 2      1318          6.8             0                  NA
+    ## 3      3067          8.0             0                  NA
+    ## 4      1144          6.8             0                  NA
+    ## 5      1440          4.0             0                  NA
+    ## 6      1620          6.8             0                  NA
+
+``` r
+tail(data_set_full)
+```
+
+    ##     year month dumpster       date weight_tons volume_cubic_yards
+    ## 339 2019   May      336 2019-05-13        2.92                 15
+    ## 340 2019   May      337 2019-05-15        2.83                 15
+    ## 341 2019   May      338 2019-05-15        2.76                 15
+    ## 342 2019   May      339 2019-05-28        2.51                 15
+    ## 343 2019   May      340 2019-05-28        2.72                 15
+    ## 344 2019   May      341 2019-05-31        3.19                 15
+    ##     plastic_bottles polystyrene cigarette_butts glass_bottles grocery_bags
+    ## 339             980        1200            2400            18          640
+    ## 340            1880        2440            4200            10          990
+    ## 341             900        1300            3800             4          480
+    ## 342            1740        2000            6400            13          600
+    ## 343            1140        1080            5400            16          900
+    ## 344            2040        1250            6600            17          860
+    ##     chip_bags sports_balls homes_powered total_precipitation
+    ## 339       800           14      48.66667                3.58
+    ## 340       460           22      47.16667                3.58
+    ## 341       660            6      46.00000                3.58
+    ## 342       780            9      41.83333                3.58
+    ## 343      1080           10      45.33333                3.58
+    ## 344      1480            8      53.16667                3.58
+
+\#The data set has 344 observations and is 344 x 15 in size. There are
+15 columns. Of those, 13 are in nmerical format. 1 column is a character
+format and the date column is in time stamp format.
+
 \#\#I will drop missing values from the dataset, which will remove all
 values before 2018\#\#\#
 
 ``` r
 data_set_edit = drop_na(data_set_full)
+view(data_set_edit)
+```
+
+\#I will characterize the new data set by viewing the structure, head
+and tail
+
+``` r
+str(data_set_edit)
+```
+
+    ## 'data.frame':    123 obs. of  15 variables:
+    ##  $ year               : num  2018 2018 2018 2018 2018 ...
+    ##  $ month              : chr  "April" "April" "April" "April" ...
+    ##  $ dumpster           : num  235 236 237 238 239 240 241 242 243 244 ...
+    ##  $ date               : POSIXct, format: "2018-04-16" "2018-04-16" ...
+    ##  $ weight_tons        : num  4.3 2.91 3.62 2.4 3.19 3.03 3.26 3.04 3.09 2.72 ...
+    ##  $ volume_cubic_yards : num  15 15 15 12 15 15 15 15 15 15 ...
+    ##  $ plastic_bottles    : num  2150 970 840 790 750 810 790 670 710 730 ...
+    ##  $ polystyrene        : num  2300 1100 920 910 830 890 1020 840 910 840 ...
+    ##  $ cigarette_butts    : num  23000 8000 7000 8000 6000 5000 6000 7000 7000 6000 ...
+    ##  $ glass_bottles      : num  16 2 3 4 3 4 3 2 4 6 ...
+    ##  $ grocery_bags       : num  1320 300 290 260 190 200 150 230 310 280 ...
+    ##  $ chip_bags          : num  2070 800 650 590 400 450 500 620 780 640 ...
+    ##  $ sports_balls       : num  12 1 4 2 4 3 4 3 4 2 ...
+    ##  $ homes_powered      : num  71.7 48.5 60.3 40 53.2 ...
+    ##  $ total_precipitation: num  4.69 4.69 4.69 4.69 4.69 4.69 4.69 4.69 4.69 4.69 ...
+
+``` r
+head(data_set_edit)
+```
+
+    ##   year month dumpster       date weight_tons volume_cubic_yards plastic_bottles
+    ## 1 2018 April      235 2018-04-16        4.30                 15            2150
+    ## 2 2018 April      236 2018-04-16        2.91                 15             970
+    ## 3 2018 April      237 2018-04-16        3.62                 15             840
+    ## 4 2018 April      238 2018-04-16        2.40                 12             790
+    ## 5 2018 April      239 2018-04-17        3.19                 15             750
+    ## 6 2018 April      240 2018-04-17        3.03                 15             810
+    ##   polystyrene cigarette_butts glass_bottles grocery_bags chip_bags sports_balls
+    ## 1        2300           23000            16         1320      2070           12
+    ## 2        1100            8000             2          300       800            1
+    ## 3         920            7000             3          290       650            4
+    ## 4         910            8000             4          260       590            2
+    ## 5         830            6000             3          190       400            4
+    ## 6         890            5000             4          200       450            3
+    ##   homes_powered total_precipitation
+    ## 1      71.66667                4.69
+    ## 2      48.50000                4.69
+    ## 3      60.33333                4.69
+    ## 4      40.00000                4.69
+    ## 5      53.16667                4.69
+    ## 6      50.50000                4.69
+
+``` r
+tail(data_set_edit)
+```
+
+    ##     year month dumpster       date weight_tons volume_cubic_yards
+    ## 118 2019   May      336 2019-05-13        2.92                 15
+    ## 119 2019   May      337 2019-05-15        2.83                 15
+    ## 120 2019   May      338 2019-05-15        2.76                 15
+    ## 121 2019   May      339 2019-05-28        2.51                 15
+    ## 122 2019   May      340 2019-05-28        2.72                 15
+    ## 123 2019   May      341 2019-05-31        3.19                 15
+    ##     plastic_bottles polystyrene cigarette_butts glass_bottles grocery_bags
+    ## 118             980        1200            2400            18          640
+    ## 119            1880        2440            4200            10          990
+    ## 120             900        1300            3800             4          480
+    ## 121            1740        2000            6400            13          600
+    ## 122            1140        1080            5400            16          900
+    ## 123            2040        1250            6600            17          860
+    ##     chip_bags sports_balls homes_powered total_precipitation
+    ## 118       800           14      48.66667                3.58
+    ## 119       460           22      47.16667                3.58
+    ## 120       660            6      46.00000                3.58
+    ## 121       780            9      41.83333                3.58
+    ## 122      1080           10      45.33333                3.58
+    ## 123      1480            8      53.16667                3.58
+
+\#The data set has 123 observations and is 344 x 15 in size. There are
+15 columns. Of those, 13 are in nmerical format. 1 column is a character
+format and the date column is in time stamp format.
+
+\#I will view the data set
+
+``` r
 view(data_set_edit)
 ```
 
@@ -385,4 +592,80 @@ view(data_set_edit)
 
     ## [1] 8.5
 
-\#\#\#The median number of sports balls was 2019
+\#\#\#The median number of sports balls was 8.5 in 2019
+
+\#\#I will calculate the median weight in tons, volume in cubic volume,
+number of plastic bottles, amount of polystyrene, and homes powered in
+2018
+
+``` r
+ data_set_edit %>% filter (year == 2018) %>% pull (weight_tons) %>% median() ##weight
+```
+
+    ## [1] 3.31
+
+``` r
+data_set_edit %>% filter (year == 2018) %>% pull (volume_cubic_yards) %>% median() #cubic volume
+```
+
+    ## [1] 15
+
+``` r
+data_set_edit %>% filter (year == 2018) %>% pull (plastic_bottles) %>% median() #plastic bottles
+```
+
+    ## [1] 1200
+
+``` r
+data_set_edit %>% filter (year == 2018) %>% pull (polystyrene) %>% median() #ploystyrene
+```
+
+    ## [1] 1020
+
+``` r
+data_set_edit %>% filter (year == 2018) %>% pull (homes_powered) %>% median() #homes powered
+```
+
+    ## [1] 55.16667
+
+\#The median weight is 3 tons, median volume is 15 cubic yards, number
+of plastic botles is 1200, amount of polystyrene is 1020, and number of
+homes powered is 55.
+
+\#\#I will calculate the median weight in tons, volume in cubic volume,
+number of plastic bottles, amount of polystyrene, and homes powered in
+2019
+
+``` r
+ data_set_edit %>% filter (year == 2019) %>% pull (weight_tons) %>% median() ##weight
+```
+
+    ## [1] 3.065
+
+``` r
+data_set_edit %>% filter (year == 2019) %>% pull (volume_cubic_yards) %>% median() #cubic volume
+```
+
+    ## [1] 15
+
+``` r
+data_set_edit %>% filter (year == 2019) %>% pull (plastic_bottles) %>% median() #plastic bottles
+```
+
+    ## [1] 1075
+
+``` r
+data_set_edit %>% filter (year == 2019) %>% pull (polystyrene) %>% median() #ploystyrene
+```
+
+    ## [1] 1350
+
+``` r
+data_set_edit %>% filter (year == 2019) %>% pull (homes_powered) %>% median() #homes powered
+```
+
+    ## [1] 51.08333
+
+\#The median weight is 3 tons, median volume is 15 cubic yards, number
+of plastic botles is 1075, amount of polystyrene is 1350, and number of
+homes powered is 51.
