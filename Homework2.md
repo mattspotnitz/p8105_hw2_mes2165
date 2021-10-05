@@ -321,3 +321,40 @@ view(df_nine)
 df_2018 = df_nine %>% mutate(year = 2018)
 view(df_2018)
 ```
+
+\#I will convert from numeric value to month name for 2018
+
+``` r
+df_2018_m = df_2018 %>% mutate(month_name = month.name[month])
+view(df_2018_m)
+```
+
+\#I will convert from numeric value to month name for 2019
+
+``` r
+df_2019_m = df_2019 %>% mutate(month_name = month.name[month])
+view(df_2019_m)
+```
+
+\#I merge precipitation datasets
+
+``` r
+precipitation = merge(df_2018_m, df_2019_m, by = c("year", "month", "month_name", "total"), all=TRUE)
+view(precipitation)
+```
+
+\#I will remove then numeric month column from the dataset. \#Then, I
+will rename the month\_name column as month to merge with the Mr. Trash
+Wheel dataset better.
+
+``` r
+precipitation_m = precipitation %>% select("year", "month_name", "total") %>% rename("month" = "month_name", "total_precipitation" = "total")
+view(precipitation_m)
+```
+
+\#I will merge Mr. Trash Wheel with precipitation data
+
+``` r
+data_set_full = merge(df_three, precipitation_m, by = c("year", "month"), all=TRUE)
+view(data_set_full)
+```
