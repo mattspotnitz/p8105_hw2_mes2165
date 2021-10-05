@@ -79,4 +79,11 @@ view(df_one)
 ```
 
 \#Clean dataset \#I will omit the last columns ‘x15’, ‘x16’, and ‘x17’,
-which do not contain data \#
+which do not contain data \#Then I will drop other ‘NA’ values
+
+``` r
+df_two = select(df_one, -c("x15", "x16", "x17"))
+view(df_two)
+df_three = drop_na(df_two)
+view(df_three)
+```
