@@ -1,12 +1,12 @@
 Homework2
 ================
 
-\#\#Problem 1 \#Import and view \#I will import the excel file, clean
-its column names, and examine the structure, head, and tai of the data
-set. \#Then, I will view the data set
+\#\#Problem 1 \#Import and view \#I will import the Mr. Trash Wheel
+sheet, clean its column names, and examine the structure, head, and tail
+of the data set. \#Then, I will view the data set
 
 ``` r
-df_one = read_excel("Trash-Wheel-Collection-Totals-8-6-19.xlsx")
+df_one = read_excel("Trash-Wheel-Collection-Totals-8-6-19.xlsx", sheet = "Mr. Trash Wheel")
 ```
 
     ## New names:
