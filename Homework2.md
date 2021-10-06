@@ -885,6 +885,30 @@ str(df_pols_four)
     ##  $ sen_dem : num [1:822] 45 45 45 45 45 45 45 45 45 45 ...
     ##  $ rep_dem : num [1:822] 198 198 198 198 198 198 198 198 198 198 ...
 
+\#\#Now, I will convert the year and day into a numeric types.
+
+``` r
+year_numeric = df_pols_four %>% pull(year) %>% as.numeric()
+df_pols_four = df_pols_four %>% mutate(year = year_numeric)
+day_numeric = df_pols_four %>% pull(day) %>% as.numeric()
+df_pols_four = df_pols_four %>% mutate(day = day_numeric)
+
+str(df_pols_four)
+```
+
+    ## tibble [822 × 11] (S3: tbl_df/tbl/data.frame)
+    ##  $ year    : num [1:822] 1947 1947 1947 1947 1947 ...
+    ##  $ month   : chr [1:822] "January" "February" "March" "April" ...
+    ##  $ day     : num [1:822] 15 15 15 15 15 15 15 15 15 15 ...
+    ##  $ prez_gop: num [1:822] 0 0 0 0 0 0 0 0 0 0 ...
+    ##  $ gov_gop : num [1:822] 23 23 23 23 23 23 23 23 23 23 ...
+    ##  $ sen_gop : num [1:822] 51 51 51 51 51 51 51 51 51 51 ...
+    ##  $ rep_gop : num [1:822] 253 253 253 253 253 253 253 253 253 253 ...
+    ##  $ prez_dem: num [1:822] 1 1 1 1 1 1 1 1 1 1 ...
+    ##  $ gov_dem : num [1:822] 23 23 23 23 23 23 23 23 23 23 ...
+    ##  $ sen_dem : num [1:822] 45 45 45 45 45 45 45 45 45 45 ...
+    ##  $ rep_dem : num [1:822] 198 198 198 198 198 198 198 198 198 198 ...
+
 \#\#\#Now I will create a president variable
 
 ``` r
@@ -895,9 +919,9 @@ str(df_pols_five)
 ```
 
     ## tibble [1,644 × 11] (S3: tbl_df/tbl/data.frame)
-    ##  $ year       : chr [1:1644] "1947" "1947" "1947" "1947" ...
+    ##  $ year       : num [1:1644] 1947 1947 1947 1947 1947 ...
     ##  $ month      : chr [1:1644] "January" "January" "February" "February" ...
-    ##  $ day        : chr [1:1644] "15" "15" "15" "15" ...
+    ##  $ day        : num [1:1644] 15 15 15 15 15 15 15 15 15 15 ...
     ##  $ gov_gop    : num [1:1644] 23 23 23 23 23 23 23 23 23 23 ...
     ##  $ sen_gop    : num [1:1644] 51 51 51 51 51 51 51 51 51 51 ...
     ##  $ rep_gop    : num [1:1644] 253 253 253 253 253 253 253 253 253 253 ...
@@ -922,9 +946,9 @@ str (df_pols_five)
 ```
 
     ## tibble [1,644 × 11] (S3: tbl_df/tbl/data.frame)
-    ##  $ year       : chr [1:1644] "1947" "1947" "1947" "1947" ...
+    ##  $ year       : num [1:1644] 1947 1947 1947 1947 1947 ...
     ##  $ month      : chr [1:1644] "January" "January" "February" "February" ...
-    ##  $ day        : chr [1:1644] "15" "15" "15" "15" ...
+    ##  $ day        : num [1:1644] 15 15 15 15 15 15 15 15 15 15 ...
     ##  $ gov_gop    : num [1:1644] 23 23 23 23 23 23 23 23 23 23 ...
     ##  $ sen_gop    : num [1:1644] 51 51 51 51 51 51 51 51 51 51 ...
     ##  $ rep_gop    : num [1:1644] 253 253 253 253 253 253 253 253 253 253 ...
@@ -942,7 +966,7 @@ str(df_pols_six)
 ```
 
     ## tibble [1,644 × 9] (S3: tbl_df/tbl/data.frame)
-    ##  $ year     : chr [1:1644] "1947" "1947" "1947" "1947" ...
+    ##  $ year     : num [1:1644] 1947 1947 1947 1947 1947 ...
     ##  $ month    : chr [1:1644] "January" "January" "February" "February" ...
     ##  $ gov_gop  : num [1:1644] 23 23 23 23 23 23 23 23 23 23 ...
     ##  $ sen_gop  : num [1:1644] 51 51 51 51 51 51 51 51 51 51 ...
@@ -951,3 +975,272 @@ str(df_pols_six)
     ##  $ sen_dem  : num [1:1644] 45 45 45 45 45 45 45 45 45 45 ...
     ##  $ rep_dem  : num [1:1644] 198 198 198 198 198 198 198 198 198 198 ...
     ##  $ president: chr [1:1644] "dem" "gop" "dem" "gop" ...
+
+\#\#I will import and characterize snip.csv
+
+``` r
+df_snip_one = read_csv("snp.csv")
+```
+
+    ## Rows: 787 Columns: 2
+
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## Delimiter: ","
+    ## chr (1): date
+    ## dbl (1): close
+
+    ## 
+    ## ℹ Use `spec()` to retrieve the full column specification for this data.
+    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+``` r
+df_snip_one = janitor::clean_names(df_snip_one)
+str(df_snip_one)
+```
+
+    ## spec_tbl_df [787 × 2] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+    ##  $ date : chr [1:787] "7/1/15" "6/1/15" "5/1/15" "4/1/15" ...
+    ##  $ close: num [1:787] 2080 2063 2107 2086 2068 ...
+    ##  - attr(*, "spec")=
+    ##   .. cols(
+    ##   ..   date = col_character(),
+    ##   ..   close = col_double()
+    ##   .. )
+    ##  - attr(*, "problems")=<externalptr>
+
+``` r
+head(df_snip_one)
+```
+
+    ## # A tibble: 6 × 2
+    ##   date   close
+    ##   <chr>  <dbl>
+    ## 1 7/1/15 2080.
+    ## 2 6/1/15 2063.
+    ## 3 5/1/15 2107.
+    ## 4 4/1/15 2086.
+    ## 5 3/2/15 2068.
+    ## 6 2/2/15 2104.
+
+``` r
+tail(df_snip_one)
+```
+
+    ## # A tibble: 6 × 2
+    ##   date   close
+    ##   <chr>  <dbl>
+    ## 1 6/1/50  17.7
+    ## 2 5/1/50  18.8
+    ## 3 4/3/50  18.0
+    ## 4 3/1/50  17.3
+    ## 5 2/1/50  17.2
+    ## 6 1/3/50  17.0
+
+``` r
+view(df_snip_one)
+```
+
+\#Now I will drop any missing values and reassess the data frame
+
+``` r
+df_snip_one %>% drop_na()
+```
+
+    ## # A tibble: 787 × 2
+    ##    date    close
+    ##    <chr>   <dbl>
+    ##  1 7/1/15  2080.
+    ##  2 6/1/15  2063.
+    ##  3 5/1/15  2107.
+    ##  4 4/1/15  2086.
+    ##  5 3/2/15  2068.
+    ##  6 2/2/15  2104.
+    ##  7 1/2/15  1995.
+    ##  8 12/1/14 2059.
+    ##  9 11/3/14 2068.
+    ## 10 10/1/14 2018.
+    ## # … with 777 more rows
+
+``` r
+str(df_snip_one)
+```
+
+    ## spec_tbl_df [787 × 2] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+    ##  $ date : chr [1:787] "7/1/15" "6/1/15" "5/1/15" "4/1/15" ...
+    ##  $ close: num [1:787] 2080 2063 2107 2086 2068 ...
+    ##  - attr(*, "spec")=
+    ##   .. cols(
+    ##   ..   date = col_character(),
+    ##   ..   close = col_double()
+    ##   .. )
+    ##  - attr(*, "problems")=<externalptr>
+
+``` r
+head(df_snip_one)
+```
+
+    ## # A tibble: 6 × 2
+    ##   date   close
+    ##   <chr>  <dbl>
+    ## 1 7/1/15 2080.
+    ## 2 6/1/15 2063.
+    ## 3 5/1/15 2107.
+    ## 4 4/1/15 2086.
+    ## 5 3/2/15 2068.
+    ## 6 2/2/15 2104.
+
+``` r
+tail(df_snip_one)
+```
+
+    ## # A tibble: 6 × 2
+    ##   date   close
+    ##   <chr>  <dbl>
+    ## 1 6/1/50  17.7
+    ## 2 5/1/50  18.8
+    ## 3 4/3/50  18.0
+    ## 4 3/1/50  17.3
+    ## 5 2/1/50  17.2
+    ## 6 1/3/50  17.0
+
+\#There were no missing values \#Now I will separate the month value
+
+``` r
+df_snip_two = separate(df_snip_one, date, c("year", "month", "day"), "/")
+head(df_snip_two)
+```
+
+    ## # A tibble: 6 × 4
+    ##   year  month day   close
+    ##   <chr> <chr> <chr> <dbl>
+    ## 1 7     1     15    2080.
+    ## 2 6     1     15    2063.
+    ## 3 5     1     15    2107.
+    ## 4 4     1     15    2086.
+    ## 5 3     2     15    2068.
+    ## 6 2     2     15    2104.
+
+\#\#Now, I will convert the year and day into a numeric types.
+
+``` r
+year_numeric = df_snip_two %>% pull(year) %>% as.numeric()
+df_snip_two = df_snip_two %>% mutate(year = year_numeric)
+month_numeric = df_snip_two %>% pull(month) %>% as.numeric()
+df_snip_two = df_snip_two %>% mutate(month = month_numeric)
+
+day_numeric = df_snip_two %>% pull(day) %>% as.numeric()
+df_snip_two = df_snip_two %>% mutate(day = day_numeric)
+
+str(df_snip_two)
+```
+
+    ## tibble [787 × 4] (S3: tbl_df/tbl/data.frame)
+    ##  $ year : num [1:787] 7 6 5 4 3 2 1 12 11 10 ...
+    ##  $ month: num [1:787] 1 1 1 1 2 2 2 1 3 1 ...
+    ##  $ day  : num [1:787] 15 15 15 15 15 15 15 14 14 14 ...
+    ##  $ close: num [1:787] 2080 2063 2107 2086 2068 ...
+
+\#year and month are the leading columns
+
+\#\#I will import and characterize unemployment.csv
+
+``` r
+df_un_one = read_csv("unemployment.csv")
+```
+
+    ## Rows: 68 Columns: 13
+
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## Delimiter: ","
+    ## dbl (13): Year, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec
+
+    ## 
+    ## ℹ Use `spec()` to retrieve the full column specification for this data.
+    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+``` r
+df_un_one = janitor::clean_names(df_un_one)
+str(df_un_one)
+```
+
+    ## spec_tbl_df [68 × 13] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+    ##  $ year: num [1:68] 1948 1949 1950 1951 1952 ...
+    ##  $ jan : num [1:68] 3.4 4.3 6.5 3.7 3.2 2.9 4.9 4.9 4 4.2 ...
+    ##  $ feb : num [1:68] 3.8 4.7 6.4 3.4 3.1 2.6 5.2 4.7 3.9 3.9 ...
+    ##  $ mar : num [1:68] 4 5 6.3 3.4 2.9 2.6 5.7 4.6 4.2 3.7 ...
+    ##  $ apr : num [1:68] 3.9 5.3 5.8 3.1 2.9 2.7 5.9 4.7 4 3.9 ...
+    ##  $ may : num [1:68] 3.5 6.1 5.5 3 3 2.5 5.9 4.3 4.3 4.1 ...
+    ##  $ jun : num [1:68] 3.6 6.2 5.4 3.2 3 2.5 5.6 4.2 4.3 4.3 ...
+    ##  $ jul : num [1:68] 3.6 6.7 5 3.1 3.2 2.6 5.8 4 4.4 4.2 ...
+    ##  $ aug : num [1:68] 3.9 6.8 4.5 3.1 3.4 2.7 6 4.2 4.1 4.1 ...
+    ##  $ sep : num [1:68] 3.8 6.6 4.4 3.3 3.1 2.9 6.1 4.1 3.9 4.4 ...
+    ##  $ oct : num [1:68] 3.7 7.9 4.2 3.5 3 3.1 5.7 4.3 3.9 4.5 ...
+    ##  $ nov : num [1:68] 3.8 6.4 4.2 3.5 2.8 3.5 5.3 4.2 4.3 5.1 ...
+    ##  $ dec : num [1:68] 4 6.6 4.3 3.1 2.7 4.5 5 4.2 4.2 5.2 ...
+    ##  - attr(*, "spec")=
+    ##   .. cols(
+    ##   ..   Year = col_double(),
+    ##   ..   Jan = col_double(),
+    ##   ..   Feb = col_double(),
+    ##   ..   Mar = col_double(),
+    ##   ..   Apr = col_double(),
+    ##   ..   May = col_double(),
+    ##   ..   Jun = col_double(),
+    ##   ..   Jul = col_double(),
+    ##   ..   Aug = col_double(),
+    ##   ..   Sep = col_double(),
+    ##   ..   Oct = col_double(),
+    ##   ..   Nov = col_double(),
+    ##   ..   Dec = col_double()
+    ##   .. )
+    ##  - attr(*, "problems")=<externalptr>
+
+``` r
+head(df_un_one)
+```
+
+    ## # A tibble: 6 × 13
+    ##    year   jan   feb   mar   apr   may   jun   jul   aug   sep   oct   nov   dec
+    ##   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
+    ## 1  1948   3.4   3.8   4     3.9   3.5   3.6   3.6   3.9   3.8   3.7   3.8   4  
+    ## 2  1949   4.3   4.7   5     5.3   6.1   6.2   6.7   6.8   6.6   7.9   6.4   6.6
+    ## 3  1950   6.5   6.4   6.3   5.8   5.5   5.4   5     4.5   4.4   4.2   4.2   4.3
+    ## 4  1951   3.7   3.4   3.4   3.1   3     3.2   3.1   3.1   3.3   3.5   3.5   3.1
+    ## 5  1952   3.2   3.1   2.9   2.9   3     3     3.2   3.4   3.1   3     2.8   2.7
+    ## 6  1953   2.9   2.6   2.6   2.7   2.5   2.5   2.6   2.7   2.9   3.1   3.5   4.5
+
+``` r
+tail(df_un_one)
+```
+
+    ## # A tibble: 6 × 13
+    ##    year   jan   feb   mar   apr   may   jun   jul   aug   sep   oct   nov   dec
+    ##   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
+    ## 1  2010   9.8   9.8   9.9   9.9   9.6   9.4   9.4   9.5   9.5   9.4   9.8   9.3
+    ## 2  2011   9.2   9     9     9.1   9     9.1   9     9     9     8.8   8.6   8.5
+    ## 3  2012   8.3   8.3   8.2   8.2   8.2   8.2   8.2   8     7.8   7.8   7.7   7.9
+    ## 4  2013   8     7.7   7.5   7.6   7.5   7.5   7.3   7.2   7.2   7.2   7     6.7
+    ## 5  2014   6.6   6.7   6.6   6.2   6.3   6.1   6.2   6.1   5.9   5.7   5.8   5.6
+    ## 6  2015   5.7   5.5   5.5   5.4   5.5   5.3  NA    NA    NA    NA    NA    NA
+
+``` r
+view(df_un_one)
+```
+
+\#I will do a long pivot on the month names
+
+``` r
+df_un_two = pivot_longer(
+  df_un_one, c(jan:dec), names_to = "month", values_to = c("counts")
+)
+str(df_un_two)
+```
+
+    ## tibble [816 × 3] (S3: tbl_df/tbl/data.frame)
+    ##  $ year  : num [1:816] 1948 1948 1948 1948 1948 ...
+    ##  $ month : chr [1:816] "jan" "feb" "mar" "apr" ...
+    ##  $ counts: num [1:816] 3.4 3.8 4 3.9 3.5 3.6 3.6 3.9 3.8 3.7 ...
+
+``` r
+view(df_un_two)
+```
