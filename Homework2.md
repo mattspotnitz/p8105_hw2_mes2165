@@ -669,3 +669,219 @@ data_set_edit %>% filter (year == 2019) %>% pull (homes_powered) %>% median() #h
 \#The median weight is 3 tons, median volume is 15 cubic yards, number
 of plastic botles is 1075, amount of polystyrene is 1350, and number of
 homes powered is 51.
+
+\#Problem 2 \#Clean data in pols-months and characterize the data frame
+
+``` r
+df_pols = read_csv("pols-month.csv")
+```
+
+    ## Rows: 822 Columns: 9
+
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## Delimiter: ","
+    ## dbl  (8): prez_gop, gov_gop, sen_gop, rep_gop, prez_dem, gov_dem, sen_dem, r...
+    ## date (1): mon
+
+    ## 
+    ## ℹ Use `spec()` to retrieve the full column specification for this data.
+    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+``` r
+str(df_pols)
+```
+
+    ## spec_tbl_df [822 × 9] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+    ##  $ mon     : Date[1:822], format: "1947-01-15" "1947-02-15" ...
+    ##  $ prez_gop: num [1:822] 0 0 0 0 0 0 0 0 0 0 ...
+    ##  $ gov_gop : num [1:822] 23 23 23 23 23 23 23 23 23 23 ...
+    ##  $ sen_gop : num [1:822] 51 51 51 51 51 51 51 51 51 51 ...
+    ##  $ rep_gop : num [1:822] 253 253 253 253 253 253 253 253 253 253 ...
+    ##  $ prez_dem: num [1:822] 1 1 1 1 1 1 1 1 1 1 ...
+    ##  $ gov_dem : num [1:822] 23 23 23 23 23 23 23 23 23 23 ...
+    ##  $ sen_dem : num [1:822] 45 45 45 45 45 45 45 45 45 45 ...
+    ##  $ rep_dem : num [1:822] 198 198 198 198 198 198 198 198 198 198 ...
+    ##  - attr(*, "spec")=
+    ##   .. cols(
+    ##   ..   mon = col_date(format = ""),
+    ##   ..   prez_gop = col_double(),
+    ##   ..   gov_gop = col_double(),
+    ##   ..   sen_gop = col_double(),
+    ##   ..   rep_gop = col_double(),
+    ##   ..   prez_dem = col_double(),
+    ##   ..   gov_dem = col_double(),
+    ##   ..   sen_dem = col_double(),
+    ##   ..   rep_dem = col_double()
+    ##   .. )
+    ##  - attr(*, "problems")=<externalptr>
+
+``` r
+head(df_pols)
+```
+
+    ## # A tibble: 6 × 9
+    ##   mon        prez_gop gov_gop sen_gop rep_gop prez_dem gov_dem sen_dem rep_dem
+    ##   <date>        <dbl>   <dbl>   <dbl>   <dbl>    <dbl>   <dbl>   <dbl>   <dbl>
+    ## 1 1947-01-15        0      23      51     253        1      23      45     198
+    ## 2 1947-02-15        0      23      51     253        1      23      45     198
+    ## 3 1947-03-15        0      23      51     253        1      23      45     198
+    ## 4 1947-04-15        0      23      51     253        1      23      45     198
+    ## 5 1947-05-15        0      23      51     253        1      23      45     198
+    ## 6 1947-06-15        0      23      51     253        1      23      45     198
+
+``` r
+tail(df_pols)
+```
+
+    ## # A tibble: 6 × 9
+    ##   mon        prez_gop gov_gop sen_gop rep_gop prez_dem gov_dem sen_dem rep_dem
+    ##   <date>        <dbl>   <dbl>   <dbl>   <dbl>    <dbl>   <dbl>   <dbl>   <dbl>
+    ## 1 2015-01-15        0      31      54     245        1      18      44     188
+    ## 2 2015-02-15        0      31      54     245        1      18      44     188
+    ## 3 2015-03-15        0      31      54     245        1      18      44     188
+    ## 4 2015-04-15        0      31      54     244        1      18      44     188
+    ## 5 2015-05-15        0      31      54     245        1      18      44     188
+    ## 6 2015-06-15        0      31      54     246        1      18      44     188
+
+``` r
+view(df_pols)
+```
+
+\#Now I will drop any missing values and reassess the data frame
+
+``` r
+df_pols %>% drop_na()
+```
+
+    ## # A tibble: 822 × 9
+    ##    mon        prez_gop gov_gop sen_gop rep_gop prez_dem gov_dem sen_dem rep_dem
+    ##    <date>        <dbl>   <dbl>   <dbl>   <dbl>    <dbl>   <dbl>   <dbl>   <dbl>
+    ##  1 1947-01-15        0      23      51     253        1      23      45     198
+    ##  2 1947-02-15        0      23      51     253        1      23      45     198
+    ##  3 1947-03-15        0      23      51     253        1      23      45     198
+    ##  4 1947-04-15        0      23      51     253        1      23      45     198
+    ##  5 1947-05-15        0      23      51     253        1      23      45     198
+    ##  6 1947-06-15        0      23      51     253        1      23      45     198
+    ##  7 1947-07-15        0      23      51     253        1      23      45     198
+    ##  8 1947-08-15        0      23      51     253        1      23      45     198
+    ##  9 1947-09-15        0      23      51     253        1      23      45     198
+    ## 10 1947-10-15        0      23      51     253        1      23      45     198
+    ## # … with 812 more rows
+
+``` r
+str(df_pols)
+```
+
+    ## spec_tbl_df [822 × 9] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+    ##  $ mon     : Date[1:822], format: "1947-01-15" "1947-02-15" ...
+    ##  $ prez_gop: num [1:822] 0 0 0 0 0 0 0 0 0 0 ...
+    ##  $ gov_gop : num [1:822] 23 23 23 23 23 23 23 23 23 23 ...
+    ##  $ sen_gop : num [1:822] 51 51 51 51 51 51 51 51 51 51 ...
+    ##  $ rep_gop : num [1:822] 253 253 253 253 253 253 253 253 253 253 ...
+    ##  $ prez_dem: num [1:822] 1 1 1 1 1 1 1 1 1 1 ...
+    ##  $ gov_dem : num [1:822] 23 23 23 23 23 23 23 23 23 23 ...
+    ##  $ sen_dem : num [1:822] 45 45 45 45 45 45 45 45 45 45 ...
+    ##  $ rep_dem : num [1:822] 198 198 198 198 198 198 198 198 198 198 ...
+    ##  - attr(*, "spec")=
+    ##   .. cols(
+    ##   ..   mon = col_date(format = ""),
+    ##   ..   prez_gop = col_double(),
+    ##   ..   gov_gop = col_double(),
+    ##   ..   sen_gop = col_double(),
+    ##   ..   rep_gop = col_double(),
+    ##   ..   prez_dem = col_double(),
+    ##   ..   gov_dem = col_double(),
+    ##   ..   sen_dem = col_double(),
+    ##   ..   rep_dem = col_double()
+    ##   .. )
+    ##  - attr(*, "problems")=<externalptr>
+
+``` r
+head(df_pols)
+```
+
+    ## # A tibble: 6 × 9
+    ##   mon        prez_gop gov_gop sen_gop rep_gop prez_dem gov_dem sen_dem rep_dem
+    ##   <date>        <dbl>   <dbl>   <dbl>   <dbl>    <dbl>   <dbl>   <dbl>   <dbl>
+    ## 1 1947-01-15        0      23      51     253        1      23      45     198
+    ## 2 1947-02-15        0      23      51     253        1      23      45     198
+    ## 3 1947-03-15        0      23      51     253        1      23      45     198
+    ## 4 1947-04-15        0      23      51     253        1      23      45     198
+    ## 5 1947-05-15        0      23      51     253        1      23      45     198
+    ## 6 1947-06-15        0      23      51     253        1      23      45     198
+
+``` r
+tail(df_pols)
+```
+
+    ## # A tibble: 6 × 9
+    ##   mon        prez_gop gov_gop sen_gop rep_gop prez_dem gov_dem sen_dem rep_dem
+    ##   <date>        <dbl>   <dbl>   <dbl>   <dbl>    <dbl>   <dbl>   <dbl>   <dbl>
+    ## 1 2015-01-15        0      31      54     245        1      18      44     188
+    ## 2 2015-02-15        0      31      54     245        1      18      44     188
+    ## 3 2015-03-15        0      31      54     245        1      18      44     188
+    ## 4 2015-04-15        0      31      54     244        1      18      44     188
+    ## 5 2015-05-15        0      31      54     245        1      18      44     188
+    ## 6 2015-06-15        0      31      54     246        1      18      44     188
+
+\#There were no missing values \#Now I will separate the month value
+
+``` r
+df_pols_two = separate(df_pols, mon, c("year", "month", "day"), "-")
+head(df_pols_two)
+```
+
+    ## # A tibble: 6 × 11
+    ##   year  month day   prez_gop gov_gop sen_gop rep_gop prez_dem gov_dem sen_dem
+    ##   <chr> <chr> <chr>    <dbl>   <dbl>   <dbl>   <dbl>    <dbl>   <dbl>   <dbl>
+    ## 1 1947  01    15           0      23      51     253        1      23      45
+    ## 2 1947  02    15           0      23      51     253        1      23      45
+    ## 3 1947  03    15           0      23      51     253        1      23      45
+    ## 4 1947  04    15           0      23      51     253        1      23      45
+    ## 5 1947  05    15           0      23      51     253        1      23      45
+    ## 6 1947  06    15           0      23      51     253        1      23      45
+    ## # … with 1 more variable: rep_dem <dbl>
+
+\#\#Now I will replace the month number with the month name. \#\#First,
+I will convert the month into a numeric type.
+
+``` r
+month_numeric = df_pols_two %>% pull(month) %>% as.numeric()
+df_pols_three = df_pols_two %>% mutate(month = month_numeric)
+str(df_pols_three)
+```
+
+    ## tibble [822 × 11] (S3: tbl_df/tbl/data.frame)
+    ##  $ year    : chr [1:822] "1947" "1947" "1947" "1947" ...
+    ##  $ month   : num [1:822] 1 2 3 4 5 6 7 8 9 10 ...
+    ##  $ day     : chr [1:822] "15" "15" "15" "15" ...
+    ##  $ prez_gop: num [1:822] 0 0 0 0 0 0 0 0 0 0 ...
+    ##  $ gov_gop : num [1:822] 23 23 23 23 23 23 23 23 23 23 ...
+    ##  $ sen_gop : num [1:822] 51 51 51 51 51 51 51 51 51 51 ...
+    ##  $ rep_gop : num [1:822] 253 253 253 253 253 253 253 253 253 253 ...
+    ##  $ prez_dem: num [1:822] 1 1 1 1 1 1 1 1 1 1 ...
+    ##  $ gov_dem : num [1:822] 23 23 23 23 23 23 23 23 23 23 ...
+    ##  $ sen_dem : num [1:822] 45 45 45 45 45 45 45 45 45 45 ...
+    ##  $ rep_dem : num [1:822] 198 198 198 198 198 198 198 198 198 198 ...
+
+\#\#Now I will convert the numeric values to month names
+
+``` r
+df_pols_four = df_pols_three %>% mutate(month = month.name[month])
+str(df_pols_four)
+```
+
+    ## tibble [822 × 11] (S3: tbl_df/tbl/data.frame)
+    ##  $ year    : chr [1:822] "1947" "1947" "1947" "1947" ...
+    ##  $ month   : chr [1:822] "January" "February" "March" "April" ...
+    ##  $ day     : chr [1:822] "15" "15" "15" "15" ...
+    ##  $ prez_gop: num [1:822] 0 0 0 0 0 0 0 0 0 0 ...
+    ##  $ gov_gop : num [1:822] 23 23 23 23 23 23 23 23 23 23 ...
+    ##  $ sen_gop : num [1:822] 51 51 51 51 51 51 51 51 51 51 ...
+    ##  $ rep_gop : num [1:822] 253 253 253 253 253 253 253 253 253 253 ...
+    ##  $ prez_dem: num [1:822] 1 1 1 1 1 1 1 1 1 1 ...
+    ##  $ gov_dem : num [1:822] 23 23 23 23 23 23 23 23 23 23 ...
+    ##  $ sen_dem : num [1:822] 45 45 45 45 45 45 45 45 45 45 ...
+    ##  $ rep_dem : num [1:822] 198 198 198 198 198 198 198 198 198 198 ...
+
+\#\#\#Now I will create a president variable
