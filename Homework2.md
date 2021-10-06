@@ -1103,22 +1103,49 @@ tail(df_snip_one)
     ## 5 2/1/50  17.2
     ## 6 1/3/50  17.0
 
-\#There were no missing values \#Now I will separate the month value
+\#There were no missing values
+
+\#I will convert the 2 digit year date into a 4 digit year date
 
 ``` r
-df_snip_two = separate(df_snip_one, date, c("year", "month", "day"), "/")
+date_vector = df_snip_one %>% pull(date) %>% lubridate::mdy()
+df_snip_two = mutate(df_snip_one, date = date_vector)
+df_snip_two
+```
+
+    ## # A tibble: 787 × 2
+    ##    date       close
+    ##    <date>     <dbl>
+    ##  1 2015-07-01 2080.
+    ##  2 2015-06-01 2063.
+    ##  3 2015-05-01 2107.
+    ##  4 2015-04-01 2086.
+    ##  5 2015-03-02 2068.
+    ##  6 2015-02-02 2104.
+    ##  7 2015-01-02 1995.
+    ##  8 2014-12-01 2059.
+    ##  9 2014-11-03 2068.
+    ## 10 2014-10-01 2018.
+    ## # … with 777 more rows
+
+\#\#Some of the dates are impossible, as they have occurred after the
+year 2050. I will separate the values and then fix the year column.
+\#Now I will separate the month value
+
+``` r
+df_snip_two = separate(df_snip_two, date, c("year", "month", "day"), "-")
 head(df_snip_two)
 ```
 
     ## # A tibble: 6 × 4
     ##   year  month day   close
     ##   <chr> <chr> <chr> <dbl>
-    ## 1 7     1     15    2080.
-    ## 2 6     1     15    2063.
-    ## 3 5     1     15    2107.
-    ## 4 4     1     15    2086.
-    ## 5 3     2     15    2068.
-    ## 6 2     2     15    2104.
+    ## 1 2015  07    01    2080.
+    ## 2 2015  06    01    2063.
+    ## 3 2015  05    01    2107.
+    ## 4 2015  04    01    2086.
+    ## 5 2015  03    02    2068.
+    ## 6 2015  02    02    2104.
 
 \#\#Now, I will convert the year and day into a numeric types.
 
@@ -1135,25 +1162,42 @@ str(df_snip_two)
 ```
 
     ## tibble [787 × 4] (S3: tbl_df/tbl/data.frame)
-    ##  $ year : num [1:787] 7 6 5 4 3 2 1 12 11 10 ...
-    ##  $ month: num [1:787] 1 1 1 1 2 2 2 1 3 1 ...
-    ##  $ day  : num [1:787] 15 15 15 15 15 15 15 14 14 14 ...
+    ##  $ year : num [1:787] 2015 2015 2015 2015 2015 ...
+    ##  $ month: num [1:787] 7 6 5 4 3 2 1 12 11 10 ...
+    ##  $ day  : num [1:787] 1 1 1 1 2 2 2 1 3 1 ...
     ##  $ close: num [1:787] 2080 2063 2107 2086 2068 ...
 
-\#year and month are the leading columns
+\#I will rearrange so that year and month are the leading columns
+
+``` r
+close = df_snip_two %>% pull(close)
+df_snip_two = select(df_snip_two, -"close")
+df_snip_two = mutate(df_snip_two, close)
+df_snip_two = df_snip_two %>% arrange (year)
+view (df_snip_two)
+```
+
+\#now I will convert the year column into plausible values
+
+``` r
+df_snip_three = df_snip_two %>% mutate (year = ifelse(test = (year > 2020), yes = year - 100, no = year)) %>% arrange(year)
+
+  
+view(df_snip_three)
+```
 
 \#\#I will convert the month from numbers to names
 
 ``` r
-df_snip_three = df_snip_two %>% mutate(month = month.name[month])
+df_snip_three = df_snip_three %>% mutate(month = month.name[month])
 str(df_snip_three)
 ```
 
     ## tibble [787 × 4] (S3: tbl_df/tbl/data.frame)
-    ##  $ year : num [1:787] 7 6 5 4 3 2 1 12 11 10 ...
-    ##  $ month: chr [1:787] "January" "January" "January" "January" ...
-    ##  $ day  : num [1:787] 15 15 15 15 15 15 15 14 14 14 ...
-    ##  $ close: num [1:787] 2080 2063 2107 2086 2068 ...
+    ##  $ year : num [1:787] 1950 1950 1950 1950 1950 1950 1950 1950 1950 1950 ...
+    ##  $ month: chr [1:787] "December" "November" "October" "September" ...
+    ##  $ day  : num [1:787] 1 1 2 1 1 3 1 1 3 1 ...
+    ##  $ close: num [1:787] 20.4 19.5 19.5 19.5 18.4 ...
 
 \#\#I will import and characterize unemployment.csv
 
@@ -1258,8 +1302,8 @@ str(df_un_two)
 view(df_un_two)
 ```
 
-\#I will standardize the month names across the datasets \#First, I will
-replace the names in the unemployment data set
+I will replace the month names in the unemployment data set to
+standardize them with other data sets
 
 ``` r
 un_month_edit = df_un_two %>% pull(month) %>% str_replace_all("jan", "January") %>% str_replace_all("feb", "February") %>% str_replace_all("mar", "March") %>% str_replace_all("apr", "April")%>% str_replace_all("may", "May") %>% str_replace_all("jun", "June") %>% str_replace_all("jul", "July") %>% str_replace_all("aug", "August") %>% str_replace_all("sep", "September") %>% str_replace_all("oct", "October") %>% str_replace_all("nov", "November") %>% str_replace_all("dec", "December")
@@ -1415,3 +1459,23 @@ str (df_un_three)
     ##  $ year  : num [1:816] 1948 1948 1948 1948 1948 ...
     ##  $ month : chr [1:816] "January" "February" "March" "April" ...
     ##  $ counts: num [1:816] 3.4 3.8 4 3.9 3.5 3.6 3.6 3.9 3.8 3.7 ...
+
+\#\#I will make the snp year into a 4 digit number from a 2 digit number
+
+\#\#\#Now I will merge snp and pols
+
+``` r
+view(df_snip_one)
+str(df_pols_six)
+```
+
+    ## tibble [1,644 × 9] (S3: tbl_df/tbl/data.frame)
+    ##  $ year     : num [1:1644] 1947 1947 1947 1947 1947 ...
+    ##  $ month    : chr [1:1644] "January" "January" "February" "February" ...
+    ##  $ gov_gop  : num [1:1644] 23 23 23 23 23 23 23 23 23 23 ...
+    ##  $ sen_gop  : num [1:1644] 51 51 51 51 51 51 51 51 51 51 ...
+    ##  $ rep_gop  : num [1:1644] 253 253 253 253 253 253 253 253 253 253 ...
+    ##  $ gov_dem  : num [1:1644] 23 23 23 23 23 23 23 23 23 23 ...
+    ##  $ sen_dem  : num [1:1644] 45 45 45 45 45 45 45 45 45 45 ...
+    ##  $ rep_dem  : num [1:1644] 198 198 198 198 198 198 198 198 198 198 ...
+    ##  $ president: chr [1:1644] "dem" "gop" "dem" "gop" ...
