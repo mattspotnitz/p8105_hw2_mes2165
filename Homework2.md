@@ -1142,6 +1142,19 @@ str(df_snip_two)
 
 \#year and month are the leading columns
 
+\#\#I will convert the month from numbers to names
+
+``` r
+df_snip_three = df_snip_two %>% mutate(month = month.name[month])
+str(df_snip_three)
+```
+
+    ## tibble [787 × 4] (S3: tbl_df/tbl/data.frame)
+    ##  $ year : num [1:787] 7 6 5 4 3 2 1 12 11 10 ...
+    ##  $ month: chr [1:787] "January" "January" "January" "January" ...
+    ##  $ day  : num [1:787] 15 15 15 15 15 15 15 14 14 14 ...
+    ##  $ close: num [1:787] 2080 2063 2107 2086 2068 ...
+
 \#\#I will import and characterize unemployment.csv
 
 ``` r
@@ -1391,4 +1404,14 @@ un_month_edit
     ## [805] "January"   "February"  "March"     "April"     "May"       "June"     
     ## [811] "July"      "August"    "September" "October"   "November"  "December"
 
-\#\#\#Need to update the un\_data frame
+\#\#\#Now I will replace the old month vector with the new month vector
+
+``` r
+df_un_three = df_un_two %>% mutate (month = un_month_edit)
+str (df_un_three)
+```
+
+    ## tibble [816 × 3] (S3: tbl_df/tbl/data.frame)
+    ##  $ year  : num [1:816] 1948 1948 1948 1948 1948 ...
+    ##  $ month : chr [1:816] "January" "February" "March" "April" ...
+    ##  $ counts: num [1:816] 3.4 3.8 4 3.9 3.5 3.6 3.6 3.9 3.8 3.7 ...
