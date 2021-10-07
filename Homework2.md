@@ -1900,3 +1900,16 @@ boys %>% pivot_wider(names_from = year_of_birth, values_from = rank)
     ##  9 MALE   ASIAN AND … ERIC                  9     NA      8      9     12     12
     ## 10 MALE   ASIAN AND … DANIEL               10     NA      7      7     16      7
     ## # … with 2,072 more rows
+
+\#I will now make a scatter plot of white non-hispanic children born in
+2016 that shows the number of children with an ame on the y-axis and
+rank in popularity on the x-axis. First I will filter te dataframe, and
+then I will plot the data.
+
+``` r
+library(ggplot2)
+df_plot = df_names_three %>% filter(ethnicity == "WHITE NON HISPANIC") %>% filter(gender=="MALE") %>% filter(year_of_birth ==2016)
+ggplot(df_plot, aes(rank, count)) + geom_point()
+```
+
+![](Homework2_files/figure-gfm/unnamed-chunk-63-1.png)<!-- -->
