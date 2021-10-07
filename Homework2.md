@@ -1912,4 +1912,14 @@ df_plot = df_names_three %>% filter(ethnicity == "WHITE NON HISPANIC") %>% filte
 ggplot(df_plot, aes(rank, count)) + geom_point()
 ```
 
-![](Homework2_files/figure-gfm/unnamed-chunk-63-1.png)<!-- -->
+![](Homework2_files/figure-gfm/unnamed-chunk-63-1.png)<!-- --> \#Here, I
+have combined the multiple filter condiitions into one command. The
+result is the same.
+
+``` r
+library(ggplot2)
+df_plot = df_names_three %>% filter(ethnicity == "WHITE NON HISPANIC" & gender=="MALE" & year_of_birth ==2016)
+ggplot(df_plot, aes(rank, count)) + geom_point()
+```
+
+![](Homework2_files/figure-gfm/unnamed-chunk-64-1.png)<!-- -->
