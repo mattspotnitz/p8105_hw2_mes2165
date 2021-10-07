@@ -1703,3 +1703,120 @@ view(merge_three)
 \#This data set has 1572 observations and 11 variables. There were 78
 rows with ‘NA’ observations. The range of years is now 1950 through
 2015.
+
+\#Problem 3 \#First I will import and characterize the baby names data
+set
+
+``` r
+df_names = read_csv("Popular_Baby_Names.csv")
+```
+
+    ## Rows: 19418 Columns: 6
+
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## Delimiter: ","
+    ## chr (3): Gender, Ethnicity, Child's First Name
+    ## dbl (3): Year of Birth, Count, Rank
+
+    ## 
+    ## ℹ Use `spec()` to retrieve the full column specification for this data.
+    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+``` r
+df_names = janitor::clean_names(df_names)
+str(df_names)
+```
+
+    ## spec_tbl_df [19,418 × 6] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+    ##  $ year_of_birth    : num [1:19418] 2016 2016 2016 2016 2016 ...
+    ##  $ gender           : chr [1:19418] "FEMALE" "FEMALE" "FEMALE" "FEMALE" ...
+    ##  $ ethnicity        : chr [1:19418] "ASIAN AND PACIFIC ISLANDER" "ASIAN AND PACIFIC ISLANDER" "ASIAN AND PACIFIC ISLANDER" "ASIAN AND PACIFIC ISLANDER" ...
+    ##  $ childs_first_name: chr [1:19418] "Olivia" "Chloe" "Sophia" "Emily" ...
+    ##  $ count            : num [1:19418] 172 112 104 99 99 79 59 57 56 56 ...
+    ##  $ rank             : num [1:19418] 1 2 3 4 4 5 6 7 8 8 ...
+    ##  - attr(*, "spec")=
+    ##   .. cols(
+    ##   ..   `Year of Birth` = col_double(),
+    ##   ..   Gender = col_character(),
+    ##   ..   Ethnicity = col_character(),
+    ##   ..   `Child's First Name` = col_character(),
+    ##   ..   Count = col_double(),
+    ##   ..   Rank = col_double()
+    ##   .. )
+    ##  - attr(*, "problems")=<externalptr>
+
+``` r
+head(df_names)
+```
+
+    ## # A tibble: 6 × 6
+    ##   year_of_birth gender ethnicity                  childs_first_name count  rank
+    ##           <dbl> <chr>  <chr>                      <chr>             <dbl> <dbl>
+    ## 1          2016 FEMALE ASIAN AND PACIFIC ISLANDER Olivia              172     1
+    ## 2          2016 FEMALE ASIAN AND PACIFIC ISLANDER Chloe               112     2
+    ## 3          2016 FEMALE ASIAN AND PACIFIC ISLANDER Sophia              104     3
+    ## 4          2016 FEMALE ASIAN AND PACIFIC ISLANDER Emily                99     4
+    ## 5          2016 FEMALE ASIAN AND PACIFIC ISLANDER Emma                 99     4
+    ## 6          2016 FEMALE ASIAN AND PACIFIC ISLANDER Mia                  79     5
+
+``` r
+tail(df_names)
+```
+
+    ## # A tibble: 6 × 6
+    ##   year_of_birth gender ethnicity          childs_first_name count  rank
+    ##           <dbl> <chr>  <chr>              <chr>             <dbl> <dbl>
+    ## 1          2011 MALE   WHITE NON HISPANIC BERISH               10    97
+    ## 2          2011 MALE   WHITE NON HISPANIC STEPHEN              10    97
+    ## 3          2011 MALE   WHITE NON HISPANIC STEPHEN              10    97
+    ## 4          2011 MALE   WHITE NON HISPANIC DEREK                10    97
+    ## 5          2011 MALE   WHITE NON HISPANIC BENNETT              10    97
+    ## 6          2011 MALE   WHITE NON HISPANIC ELLIS                10    97
+
+``` r
+view(df_names)
+```
+
+\#names, strings, and duplicates have to be addressed \#First I will
+convert the names into all capital letters and removed unwanted
+punctuation \#Then I will replace the old names in the dataframe with
+the new names.
+
+``` r
+capital_names = df_names %>% pull(childs_first_name) %>% toupper() %>% str_replace_all("[[:punct:]]", " ")
+df_names_two = df_names %>% mutate(childs_first_name = capital_names)
+str(df_names_two)
+```
+
+    ## spec_tbl_df [19,418 × 6] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+    ##  $ year_of_birth    : num [1:19418] 2016 2016 2016 2016 2016 ...
+    ##  $ gender           : chr [1:19418] "FEMALE" "FEMALE" "FEMALE" "FEMALE" ...
+    ##  $ ethnicity        : chr [1:19418] "ASIAN AND PACIFIC ISLANDER" "ASIAN AND PACIFIC ISLANDER" "ASIAN AND PACIFIC ISLANDER" "ASIAN AND PACIFIC ISLANDER" ...
+    ##  $ childs_first_name: chr [1:19418] "OLIVIA" "CHLOE" "SOPHIA" "EMILY" ...
+    ##  $ count            : num [1:19418] 172 112 104 99 99 79 59 57 56 56 ...
+    ##  $ rank             : num [1:19418] 1 2 3 4 4 5 6 7 8 8 ...
+    ##  - attr(*, "spec")=
+    ##   .. cols(
+    ##   ..   `Year of Birth` = col_double(),
+    ##   ..   Gender = col_character(),
+    ##   ..   Ethnicity = col_character(),
+    ##   ..   `Child's First Name` = col_character(),
+    ##   ..   Count = col_double(),
+    ##   ..   Rank = col_double()
+    ##   .. )
+    ##  - attr(*, "problems")=<externalptr>
+
+\#Now I will remove duplicated rows
+
+``` r
+df_names_three = unique(df_names_two)
+str(df_names_three)
+```
+
+    ## tibble [12,181 × 6] (S3: tbl_df/tbl/data.frame)
+    ##  $ year_of_birth    : num [1:12181] 2016 2016 2016 2016 2016 ...
+    ##  $ gender           : chr [1:12181] "FEMALE" "FEMALE" "FEMALE" "FEMALE" ...
+    ##  $ ethnicity        : chr [1:12181] "ASIAN AND PACIFIC ISLANDER" "ASIAN AND PACIFIC ISLANDER" "ASIAN AND PACIFIC ISLANDER" "ASIAN AND PACIFIC ISLANDER" ...
+    ##  $ childs_first_name: chr [1:12181] "OLIVIA" "CHLOE" "SOPHIA" "EMILY" ...
+    ##  $ count            : num [1:12181] 172 112 104 99 99 79 59 57 56 56 ...
+    ##  $ rank             : num [1:12181] 1 2 3 4 4 5 6 7 8 8 ...
