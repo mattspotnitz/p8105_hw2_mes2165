@@ -1820,3 +1820,83 @@ str(df_names_three)
     ##  $ childs_first_name: chr [1:12181] "OLIVIA" "CHLOE" "SOPHIA" "EMILY" ...
     ##  $ count            : num [1:12181] 172 112 104 99 99 79 59 57 56 56 ...
     ##  $ rank             : num [1:12181] 1 2 3 4 4 5 6 7 8 8 ...
+
+\#I will filter the data frame to entries that contain olivia, and then
+make a pivot table that is wider.
+
+``` r
+olivia = df_names_three %>% filter(childs_first_name == "OLIVIA")  %>% arrange(year_of_birth) %>% select(-c(gender, count))
+olivia
+```
+
+    ## # A tibble: 24 × 4
+    ##    year_of_birth ethnicity                  childs_first_name  rank
+    ##            <dbl> <chr>                      <chr>             <dbl>
+    ##  1          2011 ASIAN AND PACIFIC ISLANDER OLIVIA                4
+    ##  2          2011 BLACK NON HISPANIC         OLIVIA               10
+    ##  3          2011 HISPANIC                   OLIVIA               18
+    ##  4          2011 WHITE NON HISPANIC         OLIVIA                2
+    ##  5          2012 ASIAN AND PACI             OLIVIA                3
+    ##  6          2012 BLACK NON HISP             OLIVIA                8
+    ##  7          2012 HISPANIC                   OLIVIA               22
+    ##  8          2012 WHITE NON HISP             OLIVIA                4
+    ##  9          2013 ASIAN AND PACIFIC ISLANDER OLIVIA                3
+    ## 10          2013 BLACK NON HISPANIC         OLIVIA                6
+    ## # … with 14 more rows
+
+``` r
+olivia %>% pivot_wider(names_from = year_of_birth, values_from = rank)
+```
+
+    ## # A tibble: 7 × 8
+    ##   ethnicity           childs_first_na… `2011` `2012` `2013` `2014` `2015` `2016`
+    ##   <chr>               <chr>             <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>
+    ## 1 ASIAN AND PACIFIC … OLIVIA                4     NA      3      1      1      1
+    ## 2 BLACK NON HISPANIC  OLIVIA               10     NA      6      8      4      8
+    ## 3 HISPANIC            OLIVIA               18     22     22     16     16     13
+    ## 4 WHITE NON HISPANIC  OLIVIA                2     NA      1      1      1      1
+    ## 5 ASIAN AND PACI      OLIVIA               NA      3     NA     NA     NA     NA
+    ## 6 BLACK NON HISP      OLIVIA               NA      8     NA     NA     NA     NA
+    ## 7 WHITE NON HISP      OLIVIA               NA      4     NA     NA     NA     NA
+
+\#I will filter the data frame to entries for male children, and then
+make a pivot table.
+
+``` r
+boys = df_names_three %>% filter(gender == "MALE")  %>% arrange(year_of_birth) %>% select(-c(count))
+boys
+```
+
+    ## # A tibble: 5,963 × 5
+    ##    year_of_birth gender ethnicity                  childs_first_name  rank
+    ##            <dbl> <chr>  <chr>                      <chr>             <dbl>
+    ##  1          2011 MALE   ASIAN AND PACIFIC ISLANDER ETHAN                 1
+    ##  2          2011 MALE   ASIAN AND PACIFIC ISLANDER JAYDEN                2
+    ##  3          2011 MALE   ASIAN AND PACIFIC ISLANDER RYAN                  3
+    ##  4          2011 MALE   ASIAN AND PACIFIC ISLANDER JUSTIN                4
+    ##  5          2011 MALE   ASIAN AND PACIFIC ISLANDER LUCAS                 5
+    ##  6          2011 MALE   ASIAN AND PACIFIC ISLANDER JASON                 6
+    ##  7          2011 MALE   ASIAN AND PACIFIC ISLANDER AIDEN                 7
+    ##  8          2011 MALE   ASIAN AND PACIFIC ISLANDER KEVIN                 8
+    ##  9          2011 MALE   ASIAN AND PACIFIC ISLANDER ERIC                  9
+    ## 10          2011 MALE   ASIAN AND PACIFIC ISLANDER DANIEL               10
+    ## # … with 5,953 more rows
+
+``` r
+boys %>% pivot_wider(names_from = year_of_birth, values_from = rank)
+```
+
+    ## # A tibble: 2,082 × 9
+    ##    gender ethnicity   childs_first_na… `2011` `2012` `2013` `2014` `2015` `2016`
+    ##    <chr>  <chr>       <chr>             <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>
+    ##  1 MALE   ASIAN AND … ETHAN                 1     NA      2      2      2      1
+    ##  2 MALE   ASIAN AND … JAYDEN                2     NA      1      1      1      5
+    ##  3 MALE   ASIAN AND … RYAN                  3     NA      3      3      3      2
+    ##  4 MALE   ASIAN AND … JUSTIN                4     NA     11     17     22     15
+    ##  5 MALE   ASIAN AND … LUCAS                 5     NA      4      4      6      4
+    ##  6 MALE   ASIAN AND … JASON                 6     NA      9     10      8      9
+    ##  7 MALE   ASIAN AND … AIDEN                 7     NA      5      5      5      6
+    ##  8 MALE   ASIAN AND … KEVIN                 8     NA     13     15     23     13
+    ##  9 MALE   ASIAN AND … ERIC                  9     NA      8      9     12     12
+    ## 10 MALE   ASIAN AND … DANIEL               10     NA      7      7     16      7
+    ## # … with 2,072 more rows
