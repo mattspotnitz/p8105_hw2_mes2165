@@ -1914,7 +1914,7 @@ ggplot(df_plot, aes(rank, count)) + geom_point() +
     title = "White Non-Hispanic Children Born in 2016",
     x = "Rank in Popularity",
     y = "Number of Children"
-  )
+  ) + theme_minimal()
 ```
 
 ![](Homework2_files/figure-gfm/unnamed-chunk-63-1.png)<!-- --> \#Here, I
@@ -1929,7 +1929,7 @@ ggplot(df_plot, aes(rank, count)) + geom_point() +
     title = "White Non-Hispanic Children Born in 2016",
     x = "Rank in Popularity",
     y = "Number of Children"
-  )
+  ) + theme_minimal()
 ```
 
 ![](Homework2_files/figure-gfm/unnamed-chunk-64-1.png)<!-- -->
