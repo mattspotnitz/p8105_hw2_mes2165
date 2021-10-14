@@ -1,9 +1,11 @@
 Homework2
 ================
 
-\#\#Problem 1 \#Import and view \#I will import the Mr. Trash Wheel
-sheet, clean its column names, and examine the structure, head, and tail
-of the data set. \#Then, I will view the data set
+\#\#Problem 1 Import and view I will import the Mr. Trash Wheel sheet,
+clean its column names, and examine the structure, head, and tail of the
+data set.
+
+Then, I will view the data set.
 
 ``` r
 df_one = read_excel("Trash-Wheel-Collection-Totals-7-2020-2.xlsx", sheet = "Mr. Trash Wheel")
@@ -78,8 +80,10 @@ tail(df_one)
 view(df_one)
 ```
 
-\#Clean dataset \#I will omit the last columns ‘x15’, ‘x16’, and ‘x17’,
-which do not contain data \#Then I will drop other ‘NA’ values
+\#Clean dataset
+
+I will omit the last columns ‘x15’, ‘x16’, and ‘x17’, which do not
+contain data. Then I will drop other ‘NA’ values.
 
 ``` r
 df_two = select(df_one, -c("x15", "x16", "x17"))
@@ -97,10 +101,10 @@ sum(sb)
 
     ## [1] 5322.6
 
-\#\#\#4065 is the closest integer value of sports balls
+4065 is the closest integer value of sports balls
 
-\#\#This calculation could also be achieved by the “pull” function,
-which I will show below
+This calculation could also be achieved by the “pull” function, which I
+will show below
 
 ``` r
 df_three %>% pull("sports_balls") %>% sum()
@@ -108,9 +112,12 @@ df_three %>% pull("sports_balls") %>% sum()
 
     ## [1] 5322.6
 
-\#Import and view \#I will import the 2019 precipitation sheet, clean
-its column names, and examine the structure, head, and tail of the data
-set. \#Then, I will view the data set
+\#Import and view
+
+I will import the 2019 precipitation sheet, clean its column names, and
+examine the structure, head, and tail of the data set.
+
+Then, I will view the data set.
 
 ``` r
 df_four = read_excel("Trash-Wheel-Collection-Totals-7-2020-2.xlsx", sheet = "2019 Precipitation")
@@ -160,7 +167,7 @@ tail(df_four)
 view(df_four)
 ```
 
-\#The first row contains column names. \#I will clean the column names.
+The first row contains column names. I will clean the column names.
 
 ``` r
 df_five = read_excel("Trash-Wheel-Collection-Totals-7-2020-2.xlsx", sheet = "2019 Precipitation", skip = 1, col_names = TRUE)
@@ -204,21 +211,21 @@ tail(df_five)
 view(df_five)
 ```
 
-\#Now I will omit rows with missing data
+Now I will omit rows with missing data
 
 ``` r
 df_six = drop_na(df_five)
 view(df_six)
 ```
 
-# I will add a year column to this data set
+I will add a year column to this data set
 
 ``` r
 df_2019 = df_six %>% mutate(year = 2019)
 view(df_2019)
 ```
 
-\#\#\#Now I will move on to the 2018 precipitation sheet
+Now I will move on to the 2018 precipitation sheet
 
 ``` r
 df_seven = read_excel("Trash-Wheel-Collection-Totals-7-2020-2.xlsx", sheet = "2018 Precipitation")
@@ -268,8 +275,8 @@ tail(df_seven)
 view(df_seven)
 ```
 
-\#The first row contains column names. \#I will clean the column names
-and drop the NA values
+The first row contains column names. I will clean the column names and
+drop the NA values
 
 ``` r
 df_eight = read_excel("Trash-Wheel-Collection-Totals-7-2020-2.xlsx", sheet = "2018 Precipitation", skip = 1, col_names = TRUE)
@@ -315,45 +322,45 @@ df_nine = drop_na(df_eight)
 view(df_nine)
 ```
 
-# I will add a year column to this data set
+I will add a year column to this data set.
 
 ``` r
 df_2018 = df_nine %>% mutate(year = 2018)
 view(df_2018)
 ```
 
-\#I will convert from numeric value to month name for 2018
+I will convert from numeric value to month name for 2018.
 
 ``` r
 df_2018_m = df_2018 %>% mutate(month_name = month.name[month])
 view(df_2018_m)
 ```
 
-\#I will convert from numeric value to month name for 2019
+I will convert from numeric value to month name for 2019.
 
 ``` r
 df_2019_m = df_2019 %>% mutate(month_name = month.name[month])
 view(df_2019_m)
 ```
 
-\#I merge precipitation datasets
+I will merge precipitation datasets.
 
 ``` r
 precipitation = merge(df_2018_m, df_2019_m, by = c("year", "month", "month_name", "total"), all=TRUE)
 view(precipitation)
 ```
 
-\#I will remove then numeric month column from the dataset. \#Then, I
-will rename the month\_name column as month to merge with the Mr. Trash
-Wheel dataset better.
+I will remove then numeric month column from the dataset. Then, I will
+rename the month\_name column as month to merge with the Mr. Trash Wheel
+dataset better.
 
 ``` r
 precipitation_m = precipitation %>% select("year", "month_name", "total") %>% rename("month" = "month_name", "total_precipitation" = "total")
 view(precipitation_m)
 ```
 
-\#I will characterize the precipitation data sets by viewing the
-structure, head and tail
+I will characterize the precipitation data sets by viewing the
+structure, head and tail.
 
 ``` r
 str(precipitation)
@@ -389,19 +396,19 @@ tail(precipitation)
     ## 23 2019    11   November  1.86
     ## 24 2019    12   December  3.57
 
-\#This data set has 18 observations and 4 variables. There are 4
-columns. Of those, 3 columns are in numerical format and month\_name is
-in a character format.
+This data set has 18 observations and 4 variables. There are 4 columns.
+Of those, 3 columns are in numerical format and month\_name is in a
+character format.
 
-\#I will merge Mr. Trash Wheel with precipitation data
+I will merge Mr. Trash Wheel with precipitation data.
 
 ``` r
 data_set_full = merge(df_three, precipitation_m, by = c("year", "month"), all=TRUE)
 view(data_set_full)
 ```
 
-\#I will characterize the merged data sets by viewing the structure,
-head and tail
+I will characterize the merged data sets by viewing the structure, head
+and tail.
 
 ``` r
 str(data_set_full)
@@ -476,20 +483,20 @@ tail(data_set_full)
     ## 453       640           18      39.33333                  NA
     ## 454       540           12      46.83333                  NA
 
-\#The data set has 344 observations and is 344 x 15 in size. There are
-15 columns. Of those, 13 are in nmerical format. 1 column is a character
+The data set has 344 observations and is 344 x 15 in size. There are 15
+columns. Of those, 13 are in nmerical format. 1 column is a character
 format and the date column is in time stamp format.
 
-\#\#I will drop missing values from the dataset, which will remove all
-values before 2018\#\#\#
+I will drop missing values from the dataset, which will remove all
+values before 2018.
 
 ``` r
 data_set_edit = drop_na(data_set_full)
 view(data_set_edit)
 ```
 
-\#I will characterize the new data set by viewing the structure, head
-and tail
+I will characterize the new data set by viewing the structure, head and
+tail.
 
 ``` r
 str(data_set_edit)
@@ -564,17 +571,17 @@ tail(data_set_edit)
     ## 158      1980           28      54.16667                5.45
     ## 159       880            2      49.66667                5.45
 
-\#The data set has 123 observations and is 344 x 15 in size. There are
-15 columns. Of those, 13 are in nmerical format. 1 column is a character
+The data set has 123 observations and is 344 x 15 in size. There are 15
+columns. Of those, 13 are in nmerical format. 1 column is a character
 format and the date column is in time stamp format.
 
-\#I will view the data set
+I will view the data set.
 
 ``` r
 view(data_set_edit)
 ```
 
-\#\#I will calculate the median precipitation in 2018
+I will calculate the median precipitation in 2018.
 
 ``` r
  data_set_edit %>% filter (year == 2018) %>% pull (total_precipitation) %>% median()
@@ -582,9 +589,9 @@ view(data_set_edit)
 
     ## [1] 6.11
 
-\#\#The median precipitation in 2018 was 6.11
+The median precipitation in 2018 was 6.11.
 
-\#\#I will calculate the median sports balls in 2019
+I will calculate the median sports balls in 2019.
 
 ``` r
  data_set_edit %>% filter (year == 2019) %>% pull (sports_balls) %>% median()
@@ -592,11 +599,11 @@ view(data_set_edit)
 
     ## [1] 9
 
-\#\#\#The median number of sports balls was 8.5 in 2019
+The median number of sports balls was 8.5 in 2019.
 
-\#\#I will calculate the median weight in tons, volume in cubic volume,
+I will calculate the median weight in tons, volume in cubic volume,
 number of plastic bottles, amount of polystyrene, and homes powered in
-2018
+2018.
 
 ``` r
  data_set_edit %>% filter (year == 2018) %>% pull (weight_tons) %>% median() ##weight
@@ -628,11 +635,11 @@ data_set_edit %>% filter (year == 2018) %>% pull (homes_powered) %>% median() #h
 
     ## [1] 55.16667
 
-\#The median weight is 3 tons, median volume is 15 cubic yards, number
-of plastic botles is 1200, amount of polystyrene is 1020, and number of
+The median weight is 3 tons, median volume is 15 cubic yards, number of
+plastic botles is 1200, amount of polystyrene is 1020, and number of
 homes powered is 55.
 
-\#\#I will calculate the median weight in tons, volume in cubic volume,
+I will calculate the median weight in tons, volume in cubic volume,
 number of plastic bottles, amount of polystyrene, and homes powered in
 2019
 
@@ -666,11 +673,12 @@ data_set_edit %>% filter (year == 2019) %>% pull (homes_powered) %>% median() #h
 
     ## [1] 50.91667
 
-\#The median weight is 3 tons, median volume is 15 cubic yards, number
-of plastic botles is 1075, amount of polystyrene is 1350, and number of
+The median weight is 3 tons, median volume is 15 cubic yards, number of
+plastic botles is 1075, amount of polystyrene is 1350, and number of
 homes powered is 51.
 
-\#Problem 2 \#Clean data in pols-months and characterize the data frame
+\#Problem 2 First,I will clean the data in pols-months and characterize
+the data frame.
 
 ``` r
 df_pols = read_csv("pols-month.csv")
@@ -748,7 +756,7 @@ tail(df_pols)
 view(df_pols)
 ```
 
-\#Now I will drop any missing values and reassess the data frame
+Now I will drop any missing values and reassess the data frame.
 
 ``` r
 df_pols %>% drop_na()
@@ -825,7 +833,7 @@ tail(df_pols)
     ## 5 2015-05-15        0      31      54     245        1      18      44     188
     ## 6 2015-06-15        0      31      54     246        1      18      44     188
 
-\#There were no missing values \#Now I will separate the month value
+There were no missing values. Now I will separate the month value.
 
 ``` r
 df_pols_two = separate(df_pols, mon, c("year", "month", "day"), "-")
@@ -843,8 +851,8 @@ head(df_pols_two)
     ## 6 1947  06    15           0      23      51     253        1      23      45
     ## # … with 1 more variable: rep_dem <dbl>
 
-\#\#Now I will replace the month number with the month name. \#\#First,
-I will convert the month into a numeric type.
+Now I will replace the month number with the month name. First, I will
+convert the month into a numeric type.
 
 ``` r
 month_numeric = df_pols_two %>% pull(month) %>% as.numeric()
@@ -865,7 +873,7 @@ str(df_pols_three)
     ##  $ sen_dem : num [1:822] 45 45 45 45 45 45 45 45 45 45 ...
     ##  $ rep_dem : num [1:822] 198 198 198 198 198 198 198 198 198 198 ...
 
-\#\#Now I will convert the numeric values to month names
+Now I will convert the numeric values to month names.
 
 ``` r
 df_pols_four = df_pols_three %>% mutate(month = month.name[month])
@@ -885,7 +893,7 @@ str(df_pols_four)
     ##  $ sen_dem : num [1:822] 45 45 45 45 45 45 45 45 45 45 ...
     ##  $ rep_dem : num [1:822] 198 198 198 198 198 198 198 198 198 198 ...
 
-\#\#Now, I will convert the year and day into a numeric types.
+Now, I will convert the year and day into a numeric types.
 
 ``` r
 year_numeric = df_pols_four %>% pull(year) %>% as.numeric()
@@ -909,7 +917,7 @@ str(df_pols_four)
     ##  $ sen_dem : num [1:822] 45 45 45 45 45 45 45 45 45 45 ...
     ##  $ rep_dem : num [1:822] 198 198 198 198 198 198 198 198 198 198 ...
 
-\#\#\#Now I will create a president variable
+Now I will create a president variable.
 
 ``` r
 df_pols_five = pivot_longer(
@@ -931,14 +939,14 @@ str(df_pols_five)
     ##  $ president  : chr [1:1644] "prez_dem" "prez_gop" "prez_dem" "prez_gop" ...
     ##  $ prez_values: num [1:1644] 1 0 1 0 1 0 1 0 1 0 ...
 
-\#\#\#Now I will replace the president value names
+Now I will replace the president value names.
 
 ``` r
 president_edit = df_pols_five %>% pull(president) %>% str_replace_all("prez_dem", "dem") %>% str_replace_all("prez_gop", "gop")
 ```
 
-\#\#\#Now I will replace the old president vector with the edited
-president vector
+Now I will replace the old president vector with the edited president
+vector.
 
 ``` r
 df_pols_five = df_pols_five %>% mutate (president = president_edit)
@@ -958,7 +966,7 @@ str (df_pols_five)
     ##  $ president  : chr [1:1644] "dem" "gop" "dem" "gop" ...
     ##  $ prez_values: num [1:1644] 1 0 1 0 1 0 1 0 1 0 ...
 
-\#\#\#Now I will omit the day and president values columns
+Now I will omit the day and president values columns.
 
 ``` r
 df_pols_six = select(df_pols_five, -c("day", "prez_values"))
@@ -976,7 +984,7 @@ str(df_pols_six)
     ##  $ rep_dem  : num [1:1644] 198 198 198 198 198 198 198 198 198 198 ...
     ##  $ president: chr [1:1644] "dem" "gop" "dem" "gop" ...
 
-\#\#I will import and characterize snip.csv
+I will import and characterize snip.csv.
 
 ``` r
 df_snip_one = read_csv("snp.csv")
@@ -1040,7 +1048,7 @@ tail(df_snip_one)
 view(df_snip_one)
 ```
 
-\#Now I will drop any missing values and reassess the data frame
+Now I will drop any missing values and reassess the data frame.
 
 ``` r
 df_snip_one %>% drop_na()
@@ -1103,9 +1111,9 @@ tail(df_snip_one)
     ## 5 2/1/50  17.2
     ## 6 1/3/50  17.0
 
-\#There were no missing values
+There were no missing values.
 
-\#I will convert the 2 digit year date into a 4 digit year date
+I will convert the 2 digit year date into a 4 digit year date.
 
 ``` r
 date_vector = df_snip_one %>% pull(date) %>% lubridate::mdy()
@@ -1128,9 +1136,9 @@ df_snip_two
     ## 10 2014-10-01 2018.
     ## # … with 777 more rows
 
-\#\#Some of the dates are impossible, as they have occurred after the
-year 2050. I will separate the values and then fix the year column.
-\#Now I will separate the month value
+Some of the dates are impossible, as they have occurred after the year
+2050. I will separate the values and then fix the year column. Now I
+will separate the month value.
 
 ``` r
 df_snip_two = separate(df_snip_two, date, c("year", "month", "day"), "-")
@@ -1147,7 +1155,7 @@ head(df_snip_two)
     ## 5 2015  03    02    2068.
     ## 6 2015  02    02    2104.
 
-\#\#Now, I will convert the year and day into a numeric types.
+Now, I will convert the year and day into a numeric types.
 
 ``` r
 year_numeric = df_snip_two %>% pull(year) %>% as.numeric()
@@ -1167,7 +1175,7 @@ str(df_snip_two)
     ##  $ day  : num [1:787] 1 1 1 1 2 2 2 1 3 1 ...
     ##  $ close: num [1:787] 2080 2063 2107 2086 2068 ...
 
-\#I will rearrange so that year and month are the leading columns
+I will rearrange so that year and month are the leading columns.
 
 ``` r
 close = df_snip_two %>% pull(close)
@@ -1177,8 +1185,8 @@ df_snip_two = df_snip_two %>% arrange (year)
 view (df_snip_two)
 ```
 
-\#now I will convert the year column into plausible values \#if the year
-&gt;2020, a value of 100 should be subtracted from it
+Now, I will convert the year column into plausible values. If the year
+&gt;2020, a value of 100 should be subtracted from it.
 
 ``` r
 df_snip_three = df_snip_two %>% mutate (year = ifelse(test = (year > 2020), yes = year - 100, no = year)) %>% arrange(year)
@@ -1187,7 +1195,7 @@ df_snip_three = df_snip_two %>% mutate (year = ifelse(test = (year > 2020), yes 
 view(df_snip_three)
 ```
 
-\#\#I will convert the month from numbers to names
+I will convert the month from numbers to names.
 
 ``` r
 df_snip_three = df_snip_three %>% mutate(month = month.name[month])
@@ -1200,7 +1208,7 @@ str(df_snip_three)
     ##  $ day  : num [1:787] 1 1 2 1 1 3 1 1 3 1 ...
     ##  $ close: num [1:787] 20.4 19.5 19.5 19.5 18.4 ...
 
-\#\#I will remove the day column to be consistent with pols
+I will remove the day column to be consistent with pols.
 
 ``` r
 df_snip_three = select(df_snip_three, -c("day"))
@@ -1212,7 +1220,7 @@ str(df_snip_three)
     ##  $ month: chr [1:787] "December" "November" "October" "September" ...
     ##  $ close: num [1:787] 20.4 19.5 19.5 19.5 18.4 ...
 
-\#\#I will import and characterize unemployment.csv
+I will import and characterize unemployment.csv.
 
 ``` r
 df_un_one = read_csv("unemployment.csv")
@@ -1297,7 +1305,7 @@ tail(df_un_one)
 view(df_un_one)
 ```
 
-\#I will do a long pivot on the month names
+I will do a long pivot on the month names.
 
 ``` r
 df_un_two = pivot_longer(
@@ -1316,7 +1324,7 @@ view(df_un_two)
 ```
 
 I will replace the month names in the unemployment data set to
-standardize them with other data sets
+standardize them with other data sets.
 
 ``` r
 un_month_edit = df_un_two %>% pull(month) %>% str_replace_all("jan", "January") %>% str_replace_all("feb", "February") %>% str_replace_all("mar", "March") %>% str_replace_all("apr", "April")%>% str_replace_all("may", "May") %>% str_replace_all("jun", "June") %>% str_replace_all("jul", "July") %>% str_replace_all("aug", "August") %>% str_replace_all("sep", "September") %>% str_replace_all("oct", "October") %>% str_replace_all("nov", "November") %>% str_replace_all("dec", "December")
@@ -1461,7 +1469,7 @@ un_month_edit
     ## [805] "January"   "February"  "March"     "April"     "May"       "June"     
     ## [811] "July"      "August"    "September" "October"   "November"  "December"
 
-\#\#\#Now I will replace the old month vector with the new month vector
+Now, I will replace the old month vector with the new month vector.
 
 ``` r
 df_un_three = df_un_two %>% mutate (month = un_month_edit)
@@ -1473,7 +1481,7 @@ str (df_un_three)
     ##  $ month : chr [1:816] "January" "February" "March" "April" ...
     ##  $ counts: num [1:816] 3.4 3.8 4 3.9 3.5 3.6 3.6 3.9 3.8 3.7 ...
 
-\#\#\#Now I will merge snp and pols
+Now I will merge snp and pols.
 
 ``` r
 str(df_snip_three)
@@ -1516,7 +1524,7 @@ str(merge_one)
     ##  $ rep_dem  : num  198 198 198 198 198 198 198 198 198 198 ...
     ##  $ president: chr  "dem" "gop" "dem" "gop" ...
 
-\#\#\#Now I will merge the output with unemployment
+Now I will merge the output with unemployment.
 
 ``` r
 str(df_un_three)
@@ -1545,7 +1553,7 @@ str(merge_two)
     ##  $ president: chr  "dem" "gop" "dem" "gop" ...
     ##  $ counts   : num  NA NA NA NA NA NA NA NA NA NA ...
 
-\#\#\#I will drop missing values
+I will drop missing values.
 
 ``` r
 merge_three = drop_na(merge_two)
@@ -1569,8 +1577,8 @@ str(merge_three)
 view(merge_three)
 ```
 
-\#\#\#description of output \#\#\#I want to review each data set
-\#\#First, let’s review the pols data set
+\#\#\#Description of output I want to review each data set. First, let’s
+review the pols data set
 
 ``` r
 str (df_pols_six)
@@ -1587,7 +1595,7 @@ str (df_pols_six)
     ##  $ rep_dem  : num [1:1644] 198 198 198 198 198 198 198 198 198 198 ...
     ##  $ president: chr [1:1644] "dem" "gop" "dem" "gop" ...
 
-\#This data set has 1,644 observations and 9 variables. Of the 9
+This data set has 1,644 observations and 9 variables. Of the 9
 variables, 7 are numeric. The month and president columns are
 characters. Month indicates the name of the month year and I created a
 president variables that takes political party as inputs. Additionally,
@@ -1595,7 +1603,7 @@ the year is captured, as wll as the number of governors, senators, and
 house representatives who belonged to each poltical party. The range of
 years is 1947 through 2015.
 
-\#Now I will look at the snp data set.
+Now I will look at the snp data set.
 
 ``` r
 str (df_snip_three)
@@ -1606,11 +1614,11 @@ str (df_snip_three)
     ##  $ month: chr [1:787] "December" "November" "October" "September" ...
     ##  $ close: num [1:787] 20.4 19.5 19.5 19.5 18.4 ...
 
-\#This data set has 787 observations and 3 variables. The month name is
-a character variable. The year and closing values of the S&P index are
-numerical values. The range of years is 1950 through 2015
+This data set has 787 observations and 3 variables. The month name is a
+character variable. The year and closing values of the S&P index are
+numerical values. The range of years is 1950 through 2015.
 
-\#I will look at the merged dataset of pols and snp.
+I will look at the merged dataset of pols and snp.
 
 ``` r
 str (merge_one)
@@ -1628,13 +1636,13 @@ str (merge_one)
     ##  $ rep_dem  : num  198 198 198 198 198 198 198 198 198 198 ...
     ##  $ president: chr  "dem" "gop" "dem" "gop" ...
 
-\#This data set has 1645 observations and 10 variables. The merge was
-done on year and month. The year and month data are shown, as well as
-the political affiliations of presidents, governors, senators, and
+This data set has 1645 observations and 10 variables. The merge was done
+on year and month. The year and month data are shown, as well as the
+political affiliations of presidents, governors, senators, and
 representatives. The range of years in 1947 through 2015. The S&P index
 as also shown in the merge. There are multiple ‘NA’ values.
 
-\#I will look at the unemployment data set.
+I will look at the unemployment data set.
 
 ``` r
 str (df_un_three)
@@ -1645,11 +1653,11 @@ str (df_un_three)
     ##  $ month : chr [1:816] "January" "February" "March" "April" ...
     ##  $ counts: num [1:816] 3.4 3.8 4 3.9 3.5 3.6 3.6 3.9 3.8 3.7 ...
 
-\#This data set has 816 observations and 3 variables. The month name is
+This data set has 816 observations and 3 variables. The month name is
 caracter variables and the year and percentage of unemployed people are
 continuous variables. The range of years is 1948 through 2015.
 
-\#I will look at the merge of the unemployment data set with the other
+I will look at the merge of the unemployment data set with the other
 data sets.
 
 ``` r
@@ -1669,14 +1677,14 @@ str (merge_two)
     ##  $ president: chr  "dem" "gop" "dem" "gop" ...
     ##  $ counts   : num  NA NA NA NA NA NA NA NA NA NA ...
 
-\#This data set has 1650 observations and 11 variables. The month name
-and presidents’ political affiliations are character variables. The
-others are numerical variables. In addition to year, numerical variables
+This data set has 1650 observations and 11 variables. The month name and
+presidents’ political affiliations are character variables. The others
+are numerical variables. In addition to year, numerical variables
 include the number of governors, senators and represenatives in each
 major poltiical party. The range of years is 1947 through 2015. There
 are multiple ‘NA’ values.
 
-\#I will look at how many rows are lost after dropping the ‘NA’ values.
+I will look at how many rows are lost after dropping the ‘NA’ values.
 
 ``` r
 merge_three = drop_na(merge_two)
@@ -1700,12 +1708,10 @@ str(merge_three)
 view(merge_three)
 ```
 
-\#This data set has 1572 observations and 11 variables. There were 78
-rows with ‘NA’ observations. The range of years is now 1950 through
-2015.
+This data set has 1572 observations and 11 variables. There were 78 rows
+with ‘NA’ observations. The range of years is now 1950 through 2015.
 
-\#Problem 3 \#First I will import and characterize the baby names data
-set
+\#Problem 3 First I will import and characterize the baby names data set
 
 ``` r
 df_names = read_csv("Popular_Baby_Names.csv")
@@ -1777,10 +1783,11 @@ tail(df_names)
 view(df_names)
 ```
 
-\#names, strings, and duplicates have to be addressed \#First I will
-convert the names into all capital letters and removed unwanted
-punctuation \#Then I will replace the old names in the dataframe with
-the new names.
+Names, strings, and duplicates have to be addressed.
+
+First I will convert the names into all capital letters and removed
+unwanted punctuation. Then I will replace the old names in the dataframe
+with the new names.
 
 ``` r
 capital_names = df_names %>% pull(childs_first_name) %>% toupper() %>% str_replace_all("[[:punct:]]", " ")
@@ -1806,7 +1813,7 @@ str(df_names_two)
     ##   .. )
     ##  - attr(*, "problems")=<externalptr>
 
-\#Now I will remove duplicated rows
+Now I will remove duplicated rows.
 
 ``` r
 df_names_three = unique(df_names_two)
@@ -1821,7 +1828,7 @@ str(df_names_three)
     ##  $ count            : num [1:12181] 172 112 104 99 99 79 59 57 56 56 ...
     ##  $ rank             : num [1:12181] 1 2 3 4 4 5 6 7 8 8 ...
 
-\#I will filter the data frame to entries that contain olivia, and then
+I will filter the data frame to entries that contain olivia, and then
 make a pivot table that is wider.
 
 ``` r
@@ -1859,8 +1866,8 @@ olivia %>% pivot_wider(names_from = year_of_birth, values_from = rank)
     ## 6 BLACK NON HISP      OLIVIA               NA      8     NA     NA     NA     NA
     ## 7 WHITE NON HISP      OLIVIA               NA      4     NA     NA     NA     NA
 
-\#I will filter the data frame to entries for male children, and then
-make a pivot table.
+I will filter the data frame to entries for male children, and then make
+a pivot table.
 
 ``` r
 boys = df_names_three %>% filter(gender == "MALE")  %>% arrange(year_of_birth) %>% select(-c(count))
@@ -1901,10 +1908,10 @@ boys %>% pivot_wider(names_from = year_of_birth, values_from = rank)
     ## 10 MALE   ASIAN AND … DANIEL               10     NA      7      7     16      7
     ## # … with 2,072 more rows
 
-\#I will now make a scatter plot of white non-hispanic male children
-born in 2016 that shows the number of children with an ame on the y-axis
-and rank in popularity on the x-axis. First I will filter the dataframe,
-and then I will plot the data.
+I will now make a scatter plot of white non-hispanic male children born
+in 2016 that shows the number of children with an ame on the y-axis and
+rank in popularity on the x-axis. First I will filter the dataframe, and
+then I will plot the data.
 
 ``` r
 library(ggplot2)
@@ -1917,7 +1924,7 @@ ggplot(df_plot, aes(rank, count)) + geom_point() +
   ) + theme_minimal()
 ```
 
-![](Homework2_files/figure-gfm/unnamed-chunk-63-1.png)<!-- --> \#Here, I
+![](Homework2_files/figure-gfm/unnamed-chunk-63-1.png)<!-- --> Here, I
 have combined the multiple filter condiitions into one command. The
 result is the same.
 
@@ -1933,3 +1940,7 @@ ggplot(df_plot, aes(rank, count)) + geom_point() +
 ```
 
 ![](Homework2_files/figure-gfm/unnamed-chunk-64-1.png)<!-- -->
+
+``` r
+png('mes2165_plot.png')
+```
