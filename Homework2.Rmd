@@ -493,6 +493,7 @@ ggplot(df_plot, aes(rank, count)) + geom_point() +
     x = "Rank in Popularity",
     y = "Number of Children"
   ) + theme_minimal()
+
 ```
 Here, I have combined the multiple filter condiitions into one command. The result is the same.
 ```{r}
