@@ -495,7 +495,7 @@ ggplot(df_plot, aes(rank, count)) + geom_point() +
   ) + theme_minimal()
 
 ```
-Here, I have combined the multiple filter condiitions into one command. The result is the same.
+Here, I have combined the multiple filter condiitions into one command. The result is the same.asfasdf
 ```{r}
 library(ggplot2)
 df_plot = df_names_three %>% filter(ethnicity == "WHITE NON HISPANIC" & gender=="MALE" & year_of_birth ==2016)
