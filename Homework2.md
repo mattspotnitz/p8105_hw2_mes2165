@@ -1,9 +1,10 @@
 Homework2
 ================
 
-\#\#Problem 1 Import and view I will import the Mr. Trash Wheel sheet,
-clean its column names, and examine the structure, head, and tail of the
-data set.
+\#\#Problem 1 Import and view.
+
+I will import the Mr. Trash Wheel sheet, clean its column names, and
+examine the structure, head, and tail of the data set.
 
 Then, I will view the data set.
 
